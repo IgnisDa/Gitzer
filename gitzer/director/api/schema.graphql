@@ -1,0 +1,17 @@
+type Status {
+  untrackedFiles: [untrackedFile]
+  modifiedFiles: [modifiedFile]
+  stagedFiles: [stagedFile]
+}
+
+type untrackedFile {
+  name: String!
+}
+
+type modifiedFile {
+  name: String!
+}
+
+type stagedFile {
+  name: String!
+}
