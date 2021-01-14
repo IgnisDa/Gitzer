@@ -98,8 +98,8 @@ STATIC_URL = "/static/"
 # Settings added later
 
 PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
 ]
 CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:3000", "http://localhost:3000")
 TIME_ZONE = "Asia/Kolkata"
