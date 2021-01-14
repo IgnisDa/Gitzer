@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# This script will be used to spin up the development servers for all the Gitzer applications
+
+# change to the project folder
+cd "/home/vagrant/Gitzer"
+
+# directory path of django development server
+backend_folder="gitzer"
+# directory path of nuxt development server
+frontend_folder="gitzer-frontend"
+# directory path of documentation development server
+documentation_folder="gitzer-docs/website"
+
+# Start all the servers
+{ cd "$backend_folder" && poetry run python3 manage.py runserver 0.0.0.0:8000 & \
+  cd "$frontend_folder" && yarn dev & \
+  cd "$documentation_folder" && yarn start; }

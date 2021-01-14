@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# This script will be used to install dependencies for all the Gitzer applications
+
+# directory path of django development server
+backend_folder="gitzer"
+# directory path of nuxt development server
+frontend_folder="gitzer-frontend"
+# directory path of documentation development server
+documentation_folder="gitzer-docs/website"
+
+
+# change to the project folder
+cd "/home/vagrant/Gitzer"
+# install the dependencies for the frontend application
+cd "$frontend_folder" && yarn
+
+# change to the project folder
+cd "/home/vagrant/Gitzer"
+# install the dependencies for the documentation application
+cd "$documentation_folder" && yarn
+
+# change to the project folder
+cd "/home/vagrant/Gitzer"
+# install the dependencies for the django application
+cd "$backend_folder"
+poetry config virtualenvs.in-project "true"
+poetry install

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo -e "export DJANGO_SECRET_KEY=\"wsmNFqVUxbVZZOJeNHAggsQxEAheNBLzbONAFYBObwNKjyofKW\"" >> /etc/profile.d/env-vars.sh
+echo -e "export DJANGO_DATABASE_ENGINE=\"django.db.backends.postgresql\"" >> /etc/profile.d/env-vars.sh
+echo -e "export DJANGO_DATABASE_NAME=\"website-db\"" >> /etc/profile.d/env-vars.sh
+echo -e "export DJANGO_DATABASE_USER=\"admin-user\"" >> /etc/profile.d/env-vars.sh
+echo -e "export DJANGO_DATABASE_PASSWORD=\"admin-password\"" >> /etc/profile.d/env-vars.sh
+echo -e "export DJANGO_DATABASE_HOST=\"localhost\"" >> /etc/profile.d/env-vars.sh
+echo -e "export PYTHONDONTWRITEBYTECODE=\"1\"" >> /etc/profile.d/env-vars.sh
+echo -e "export PYTHONUNBUFFERED=\"1\"" >> /etc/profile.d/env-vars.sh
