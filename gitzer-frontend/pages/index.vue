@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-900 flex w-full">
     <div class="text-white mx-auto flex flex-col container">
       <div class="flex flex-col font-mono h-1/2 items-center">
-        <div class="my-auto max-w-4xl">
+        <div class="my-auto max-w-4xl shadow-lg p-3 border border-gray-800">
           <div
             class="text-6xl md:text-9xl font-semibold"
             :class="
@@ -13,7 +13,7 @@
           >
             Gitzer.
           </div>
-          <div class="flex items-center mt-6">
+          <div class="p-3 items-center mt-6">
             <div class="w-full">
               <form
                 class="flex flex-wrap items-center w-full relative"
@@ -44,16 +44,9 @@
                 </button>
               </form>
             </div>
-          </div>
-          <div
-            class="mx-2 mt-2 text-gray-200"
-            :class="
-              existence.exists === true
-                ? 'text-successful'
-                : 'text-unsuccessful'
-            "
-          >
-            Path to a local git repository
+            <div class="mx-2 mt-2 text-gray-200">
+              Path to a local git repository
+            </div>
           </div>
         </div>
       </div>
@@ -91,6 +84,9 @@ export default {
         })
         .then((data) => {
           this.existence = data.data.existence
+        })
+        .catch((error) => {
+          this.existence = error
         })
     },
   },
