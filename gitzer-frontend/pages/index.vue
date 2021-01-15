@@ -51,7 +51,7 @@
           <div class="mx-auto flex">
             <NuxtLink
               :event="existence.exists ? 'click' : ''"
-              :to="{ name: 'directory', params: { directory: directory } }"
+              :to="{ name: 'status', query: { directory: directory } }"
               class="mx-auto"
             >
               <svg
@@ -89,7 +89,7 @@ import existenceQuery from '~/apollo/existence.gql'
 
 export default {
   data: () => ({
-    directory: '..',
+    directory: '/home/vagrant/Gitzer',
     existence: false,
   }),
   head() {
