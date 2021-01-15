@@ -6,11 +6,14 @@ query = QueryType()
 
 @query.field("status")
 @convert_kwargs_to_snake_case
-def status(*_, directory="."):
+def status(*_, directory):
     repo = git.Repo(directory)
     untracked_files = [{"name": file} for file in repo.untracked_files]
     modified_files = [{"name": file.a_path} for file in repo.index.diff(None)]
-    staged_files = [{"name": file.a_path} for file in repo.index.diff("HEAD")]
+    try:
+        staged_files = [{"name": file.a_path} for file in repo.index.diff("HEAD")]
+    except git.exc.BadName:
+        staged_files = []
     return {
         "untracked_files": untracked_files,
         "modified_files": modified_files,
@@ -20,8 +23,7 @@ def status(*_, directory="."):
 
 @query.field("existence")
 @convert_kwargs_to_snake_case
-def existence(*_, directory="."):
-    # print(info.context)
+def existence(*_, directory):
     try:
         git.Repo(directory)
         return {
