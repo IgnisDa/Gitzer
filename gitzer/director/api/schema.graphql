@@ -15,3 +15,8 @@ type modifiedFile {
 type stagedFile {
   name: String!
 }
+
+type Existence {
+  exists: Boolean!
+  message: String!
+}
