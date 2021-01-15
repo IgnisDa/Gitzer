@@ -1,0 +1,6 @@
+query existence($directory: String!) {
+  existence(directory: $directory) {
+    exists
+    message
+  }
+}
