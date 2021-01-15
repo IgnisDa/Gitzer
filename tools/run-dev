@@ -12,6 +12,8 @@ frontend_folder="gitzer-frontend"
 documentation_folder="gitzer-docs/website"
 
 # Start all the servers
+# { cd "$backend_folder" && poetry run python3 manage.py runserver 0.0.0.0:8000 & \
+#   cd "$frontend_folder" && yarn dev & \
+#   cd "$documentation_folder" && yarn start; }
 { cd "$backend_folder" && poetry run python3 manage.py runserver 0.0.0.0:8000 & \
-  cd "$frontend_folder" && yarn dev & \
-  cd "$documentation_folder" && yarn start; }
+  cd "$frontend_folder" && yarn dev; }
