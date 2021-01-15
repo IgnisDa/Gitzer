@@ -5,11 +5,7 @@
         <div class="my-auto max-w-4xl shadow-lg p-3 border border-gray-800">
           <div
             class="text-6xl md:text-9xl font-semibold transition duration-500 ease-in"
-            :class="
-              existence.exists === true
-                ? 'text-successful'
-                : 'text-unsuccessful'
-            "
+            :class="existence.exists ? 'text-successful' : 'text-unsuccessful'"
           >
             Gitzer.
           </div>
@@ -53,7 +49,11 @@
       <div class="text-center h-1/2">
         <div class="max-w-4xl mx-auto">
           <div class="mx-auto flex">
-            <NuxtLink :to="{ name: 'test' }" class="mx-auto">
+            <NuxtLink
+              :event="existence.exists ? 'click' : ''"
+              :to="{ name: 'directory', params: { directory: directory } }"
+              class="mx-auto"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
