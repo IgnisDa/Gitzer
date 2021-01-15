@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # user installed apps
-    "accounts.apps.AccountsConfig",
     "director.apps.DirectorConfig",
     # django addons
     "django_extensions",
@@ -117,7 +116,6 @@ DATABASES = {
         "PORT": "5432",
     }
 }
-AUTH_USER_MODEL = "accounts.CustomUser"
 STATIC_ROOT = BASE_DIR / "static"
 MEDIA_ROOT = "media"
 # production only settings
