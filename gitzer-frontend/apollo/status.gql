@@ -1,0 +1,13 @@
+query status($directory: String!) {
+  status(directory: $directory) {
+    untrackedFiles {
+      name
+    }
+    modifiedFiles {
+      name
+    }
+    stagedFiles {
+      name
+    }
+  }
+}
