@@ -1,5 +1,8 @@
 <template>
-  <div :class="mode !== 'production' ? 'debug-screens' : ''">
+  <div
+    class="flex min-h-screen flex-col"
+    :class="mode !== 'production' ? 'debug-screens' : ''"
+  >
     <Nuxt />
   </div>
 </template>
