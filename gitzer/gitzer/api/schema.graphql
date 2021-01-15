@@ -1,4 +1,4 @@
 type Query {
-  status(directory: String! = "."): Status!
-  existence(directory: String! = "."): Existence!
+  status(directory: String!): Status!
+  existence(directory: String!): Existence!
 }
