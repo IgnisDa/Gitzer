@@ -11,6 +11,6 @@ type_defs = [
 ]
 schema = make_executable_schema(
     type_defs,
-    [director_resolvers.query],
+    [director_resolvers.query, director_resolvers.mutation],
     snake_case_fallback_resolvers,
 )
