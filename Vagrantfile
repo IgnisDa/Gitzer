@@ -7,9 +7,9 @@ Vagrant.configure("2") do |config|
   # Name of the machine that is created
   config.vm.host_name = "gitzer-development"
   # Network settings and port forwarding
-  config.vm.network "forwarded_port", guest: 8000, host: 8000, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 8000, host: 8000, host_ip: "0.0.0.0"
+  config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "0.0.0.0"
+  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "0.0.0.0"
   # This folder is synced to the machine
   config.vm.synced_folder ".", "/home/vagrant/Gitzer"
   # VirtualBox is the default provider, and we specify some specific settings here
