@@ -1,22 +1,25 @@
 type Status {
-  untrackedFiles: [untrackedFile]
-  modifiedFiles: [modifiedFile]
-  stagedFiles: [stagedFile]
+  untrackedFiles: [file]
+  modifiedFiles: [file]
+  stagedFiles: [file]
 }
 
-type untrackedFile {
-  name: String!
-}
-
-type modifiedFile {
-  name: String!
-}
-
-type stagedFile {
+type file {
   name: String!
 }
 
 type Existence {
   exists: Boolean!
   message: String!
+}
+
+type FileCommitChangePayload {
+  filename: String!
+  status: Boolean!
+  error: String
+}
+
+input FileCommitChangeInput {
+  filename: String!
+  directory: String!
 }
