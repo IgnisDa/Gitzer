@@ -85,11 +85,11 @@
 </template>
 
 <script>
-import existenceQuery from '~/apollo/existence.gql'
+import existenceQuery from '~/apollo/queries/existence.gql'
 
 export default {
   data: () => ({
-    directory: '/home/vagrant/Gitzer',
+    directory: '/home/vagrant/temp/',
     existence: false,
   }),
   head() {
