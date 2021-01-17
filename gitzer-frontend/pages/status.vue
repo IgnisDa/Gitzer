@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen w-full flex">
+  <div class="min-h-screen w-full flex flex-col">
     <!-- <client-only>
       <div v-if="loading">Loading your repository...</div>
     </client-only> -->
@@ -118,6 +118,9 @@
         </div>
       </div>
     </div>
+    <div>
+      <CommitMessageForm @commit-change="commitChange" />
+    </div>
   </div>
 </template>
 
@@ -138,13 +141,18 @@ export default {
       return array.slice(0, array.length - 1).join('/')
     },
   },
-  data: () => ({ loading: 0 }),
+  data: () => ({
+    loading: 0,
+  }),
   head: () => ({
     title: 'Status',
   }),
   methods: {
     refetchStatus() {
       this.$apollo.queries.status.refetch()
+    },
+    commitChange(formData) {
+      console.log(formData)
     },
     discardFileChange(filename) {
       this.$apollo
