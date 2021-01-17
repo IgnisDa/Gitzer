@@ -1,0 +1,14 @@
+type Status {
+  untrackedFiles: [file]
+  modifiedFiles: [file]
+  stagedFiles: [file]
+}
+
+type Existence {
+  exists: Boolean!
+  message: String!
+}
+
+type file {
+  name: String!
+}

@@ -13,13 +13,13 @@ type Existence {
   message: String!
 }
 
-type FileCommitChangePayload {
+type FileStageChangePayload {
   filename: String!
   status: Boolean!
   error: String
 }
 
-input FileCommitChangeInput {
+input FileStageChangeInput {
   filename: String!
   directory: String!
 }

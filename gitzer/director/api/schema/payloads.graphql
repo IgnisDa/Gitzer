@@ -1,0 +1,11 @@
+type FileStageChangePayload {
+  filename: String!
+  status: Boolean!
+  error: String
+}
+
+type CommitPayload {
+  filename: String!
+  status: Boolean!
+  error: String
+}
