@@ -1,0 +1,11 @@
+type Query {
+  status(directory: String!): Status!
+  existence(directory: String!): Existence!
+}
+
+type Mutation {
+  stageFile(data: FileStageChangeInput!): FileStageChangePayload!
+  unstageFile(data: FileStageChangeInput!): FileStageChangePayload!
+  discardFileChange(data: FileStageChangeInput!): FileStageChangePayload!
+  performCommit(data: FileStageChangeInput!): FileStageChangePayload!
+}
