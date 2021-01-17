@@ -2,3 +2,10 @@ type Query {
   status(directory: String!): Status!
   existence(directory: String!): Existence!
 }
+
+type Mutation {
+  stageFile(data: FileCommitChangeInput!): FileCommitChangePayload!
+  unstageFile(data: FileCommitChangeInput!): FileCommitChangePayload!
+  discardFileChange(data: FileCommitChangeInput!): FileCommitChangePayload!
+  performCommit(data: FileCommitChangeInput!): FileCommitChangePayload!
+}
