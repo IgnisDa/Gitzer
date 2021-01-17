@@ -1,0 +1,7 @@
+mutation discardFileChange($data: FileCommitChangeInput!) {
+  discardFileChange(data: $data) {
+    filename
+    status
+    error
+  }
+}

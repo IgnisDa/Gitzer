@@ -1,0 +1,7 @@
+mutation stageFile($data: FileCommitChangeInput!) {
+  stageFile(data: $data) {
+    filename
+    status
+    error
+  }
+}

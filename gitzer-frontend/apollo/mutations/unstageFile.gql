@@ -1,0 +1,7 @@
+mutation unstageFile($data: FileCommitChangeInput!) {
+  unstageFile(data: $data) {
+    filename
+    status
+    error
+  }
+}
