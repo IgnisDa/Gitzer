@@ -3,7 +3,7 @@
     <!-- <client-only>
       <div v-if="loading">Loading your repository...</div>
     </client-only> -->
-    <div v-if="status" class="container mx-auto">
+    <div class="container mx-auto">
       <div class="flex flex-wrap overflow-hidden">
         <div
           class="max-h-96 w-full md:w-1/3 overflow-auto border-l border-b border-black relative"
@@ -12,9 +12,9 @@
             Untracked Files
           </div>
           <div>
-            <div v-if="status.untrackedFiles.length !== 0">
+            <div v-if="untrackedFiles.length !== 0">
               <div
-                v-for="(file, index) in status.untrackedFiles"
+                v-for="(file, index) in untrackedFiles"
                 :key="index"
                 class="p-2 flex justify-between"
                 :class="index % 2 ? 'bg-blue-200' : 'bg-blue-300'"
@@ -30,7 +30,12 @@
                 <div class="flex items-center">
                   <button
                     class="mx-1 shadow-inner rounded-full p-1"
-                    @click="stageFile(file.name)"
+                    @click="
+                      stageFileAction({
+                        filename: file.name,
+                        directory: $route.query.directory,
+                      })
+                    "
                   >
                     <FontAwesomeIcon class="h-7" :icon="['fas', 'plus']" />
                   </button>
@@ -48,9 +53,9 @@
             Modified Files
           </div>
           <div>
-            <div v-if="status.modifiedFiles.length !== 0">
+            <div v-if="modifiedFiles.length !== 0">
               <div
-                v-for="(file, index) in status.modifiedFiles"
+                v-for="(file, index) in modifiedFiles"
                 :key="index"
                 class="p-2 flex justify-between"
                 :class="index % 2 ? 'bg-blue-200' : 'bg-blue-300'"
@@ -66,13 +71,23 @@
                 <div class="flex items-center">
                   <button
                     class="mx-1 shadow-inner rounded-full p-1"
-                    @click="stageFile(file.name)"
+                    @click="
+                      stageFileAction({
+                        filename: file.name,
+                        directory: $route.query.directory,
+                      })
+                    "
                   >
                     <FontAwesomeIcon class="h-7" :icon="['fas', 'plus']" />
                   </button>
                   <button
                     class="mx-1 shadow-inner rounded-full p-1"
-                    @click="discardFileChange(file.name)"
+                    @click="
+                      discardFileChangeAction({
+                        filename: file.name,
+                        directory: $route.query.directory,
+                      })
+                    "
                   >
                     <FontAwesomeIcon class="h-7" :icon="['fas', 'trash']" />
                   </button>
@@ -88,9 +103,9 @@
         >
           <div class="text-center bg-yellow-200 sticky top-0">Staged Files</div>
           <div>
-            <div v-if="status.stagedFiles.length !== 0">
+            <div v-if="stagedFiles.length !== 0">
               <div
-                v-for="(file, index) in status.stagedFiles"
+                v-for="(file, index) in stagedFiles"
                 :key="index"
                 class="p-2 flex justify-between"
                 :class="index % 2 ? 'bg-blue-200' : 'bg-blue-300'"
@@ -106,7 +121,12 @@
                 <div class="flex items-center">
                   <button
                     class="mx-1 shadow-inner rounded-full p-1"
-                    @click="unstageFile(file.name)"
+                    @click="
+                      unstageFileAction({
+                        filename: file.name,
+                        directory: $route.query.directory,
+                      })
+                    "
                   >
                     <FontAwesomeIcon class="h-7" :icon="['fas', 'minus']" />
                   </button>
@@ -120,15 +140,13 @@
     </div>
     <div>
       <CommitMessageForm @commit-change="commitChange" />
+      {{ $store.state.repository }}
     </div>
   </div>
 </template>
 
 <script>
-import statusQuery from '~/apollo/queries/status.gql'
-import stageFileMutation from '~/apollo/mutations/stageFile.gql'
-import unstageFileMutation from '~/apollo/mutations/unstageFile.gql'
-import discardFileChangeMutation from '~/apollo/mutations/discardFileChange.gql'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   filters: {
@@ -147,80 +165,33 @@ export default {
   head: () => ({
     title: 'Status',
   }),
-  methods: {
-    refetchStatus() {
-      this.$apollo.queries.status.refetch()
-    },
-    commitChange(formData) {
-      console.log(formData)
-    },
-    discardFileChange(filename) {
-      this.$apollo
-        .mutate({
-          mutation: discardFileChangeMutation,
-          variables: {
-            data: {
-              filename,
-              directory: this.$route.query.directory,
-            },
-          },
-        })
-        .then((result) => {
-          this.refetchStatus()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    stageFile(filename) {
-      this.$apollo
-        .mutate({
-          mutation: stageFileMutation,
-          variables: {
-            data: {
-              filename,
-              directory: this.$route.query.directory,
-            },
-          },
-        })
-        .then((result) => {
-          this.refetchStatus()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    unstageFile(filename) {
-      this.$apollo
-        .mutate({
-          mutation: unstageFileMutation,
-          variables: {
-            data: {
-              filename,
-              directory: this.$route.query.directory,
-            },
-          },
-        })
-        .then((result) => {
-          this.refetchStatus()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+  computed: {
+    ...mapState({
+      stagedFiles: (state) => state.repository.stagedFiles,
+      modifiedFiles: (state) => state.repository.modifiedFiles,
+      untrackedFiles: (state) => state.repository.untrackedFiles,
+    }),
   },
-  apollo: {
-    $loadingKey: 'loading',
-    status: {
-      query: statusQuery,
-      variables() {
-        return { directory: this.$route.query.directory }
-      },
-      error(error) {
-        this.status = error
-      },
-      prefetch: false,
-      pollInterval: 10000,
+  mounted() {
+    this.fetchStatusAction({ directory: this.$route.query.directory })
+  },
+  methods: {
+    ...mapActions({
+      fetchStatusAction: 'repository/fetchStatus',
+      stageFileAction: 'repository/stageFile',
+      unstageFileAction: 'repository/unstageFile',
+      discardFileChangeAction: 'repository/discardFileChange',
+      commitChangeAction: 'repository/commitChange',
+    }),
+    commitChange(formData) {
+      let commitMessage = `${formData.commitType}(${formData.commitScope}): ${formData.commitSummary}`
+      if (formData.commitInfo) {
+        commitMessage += `\n\n${formData.commitInfo}`
+      }
+      this.commitChangeAction({
+        commitMessage,
+        directory: this.$route.query.directory,
+      })
     },
   },
 }

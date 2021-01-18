@@ -1,5 +1,8 @@
 import performCommitMutation from '~/apollo/mutations/performCommit.gql'
 import statusQuery from '~/apollo/queries/status.gql'
+import discardFileChangeMutation from '~/apollo/mutations/discardFileChange.gql'
+import stageFileMutation from '~/apollo/mutations/stageFile.gql'
+import unstageFileMutation from '~/apollo/mutations/unstageFile.gql'
 
 export const state = () => ({
   stagedFiles: [],
@@ -8,35 +11,17 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addStagedFile(state, filename) {
-    state.stagedFiles.push(filename)
-  },
   setStagedFiles(state, files) {
+    // console.log(state)
     state.stagedFiles = files
   },
-  removeStagedFile(state, filename) {
-    const index = state.stagedFiles.indexOf(filename)
-    state.stagedFiles.splice(index, 1)
-  },
-  addModifiedFile(state, filename) {
-    state.modifiedFiles.push(filename)
-  },
   setModifiedFiles(state, files) {
+    // console.log(state)
     state.modifiedFiles = files
   },
-  removeModifiedFile(state, filename) {
-    const index = state.modifiedFiles.indexOf(filename)
-    state.modifiedFiles.splice(index, 1)
-  },
-  addUntrackedFile(state, filename) {
-    state.untrackedFiles.push(filename)
-  },
   setUntrackedFiles(state, files) {
+    // console.log(state)
     state.untrackedFiles = files
-  },
-  removeUntrackedFile(state, filename) {
-    const index = state.untrackedFiles.indexOf(filename)
-    state.untrackedFiles.splice(index, 1)
   },
 }
 
@@ -46,12 +31,73 @@ export const actions = {
     const { data } = await apolloClient.query({
       query: statusQuery,
       variables: { directory: payload.directory },
+      // we set the fetchPolicy to 'network-only' to ensure that apollo always
+      // fetches data from the backend. This ensures that our list of files
+      // does not become stale
+      fetchPolicy: 'network-only',
     })
     commit('setStagedFiles', data.status.stagedFiles)
     commit('setModifiedFiles', data.status.modifiedFiles)
     commit('setUntrackedFiles', data.status.untrackedFiles)
   },
-  async commitChange({ dispatch, commit }, payload) {
+  stageFile({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    apolloClient
+      .mutate({
+        mutation: stageFileMutation,
+        variables: {
+          data: {
+            filename: payload.filename,
+            directory: payload.directory,
+          },
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  unstageFile({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    apolloClient
+      .mutate({
+        mutation: unstageFileMutation,
+        variables: {
+          data: {
+            filename: payload.filename,
+            directory: payload.directory,
+          },
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  async discardFileChange({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    await apolloClient
+      .mutate({
+        mutation: discardFileChangeMutation,
+        variables: {
+          data: {
+            filename: payload.filename,
+            directory: payload.directory,
+          },
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  async commitChange({ dispatch }, payload) {
     const apolloClient = this.app.apolloProvider.defaultClient
     await apolloClient
       .mutate({
@@ -61,11 +107,11 @@ export const actions = {
           directory: payload.directory,
         },
       })
-      .then((result) => {
-        this.refetchStatus()
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
       })
       .catch((err) => {
-        console.log(err)
+        alert(err)
       })
   },
 }
