@@ -10,6 +10,17 @@ export const state = () => ({
   untrackedFiles: [],
 })
 
+export const getters = {
+  commitScope: (state) => {
+    const files = []
+    for (const file of state.stagedFiles) {
+      const array = file.name.split('/')
+      files.push(array[array.length - 1])
+    }
+    return files.join(', ')
+  },
+}
+
 export const mutations = {
   setStagedFiles(state, files) {
     state.stagedFiles = files
