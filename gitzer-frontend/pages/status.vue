@@ -6,11 +6,11 @@
       <div class="flex-grow flex">
         <div class="flex flex-wrap flex-grow my-auto">
           <div
-            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-auto relative"
+            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-y-auto overflow-x-hidden relative"
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl"
+                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
               >
                 Untracked Files
               </div>
@@ -47,11 +47,11 @@
             </div>
           </div>
           <div
-            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-auto relative"
+            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-y-auto overflow-x-hidden relative"
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl"
+                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
               >
                 Modified Files
               </div>
@@ -88,11 +88,11 @@
             </div>
           </div>
           <div
-            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-auto relative"
+            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-y-auto overflow-x-hidden relative"
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl"
+                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
               >
                 Staged Files
               </div>
