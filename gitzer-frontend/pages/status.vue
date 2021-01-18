@@ -139,7 +139,7 @@
       </div>
     </div>
     <div>
-      <CommitMessageForm @commit-change="commitChange" />
+      <CommitMessageForm />
     </div>
   </div>
 </template>
@@ -189,18 +189,7 @@ export default {
       stageFileAction: 'repository/stageFile',
       unstageFileAction: 'repository/unstageFile',
       discardFileChangeAction: 'repository/discardFileChange',
-      commitChangeAction: 'repository/commitChange',
     }),
-    commitChange(formData) {
-      let commitMessage = `${formData.commitType}(${formData.commitScope}): ${formData.commitSummary}`
-      if (formData.commitInfo) {
-        commitMessage += `\n\n${formData.commitInfo}`
-      }
-      this.commitChangeAction({
-        commitMessage,
-        directory: this.$route.query.directory,
-      })
-    },
   },
 }
 </script>
