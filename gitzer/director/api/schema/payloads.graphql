@@ -5,7 +5,6 @@ type FileStageChangePayload {
 }
 
 type CommitPayload {
-  filename: String!
   status: Boolean!
   error: String
 }

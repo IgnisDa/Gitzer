@@ -2,10 +2,3 @@ input FileStageChangeInput {
   filename: String!
   directory: String!
 }
-
-input CommitInput {
-  type: String!
-  scope: String!
-  summary: String!
-  info: String
-}
