@@ -54,9 +54,7 @@ export default {
   target: 'static',
   apollo: {
     clientConfigs: {
-      default: {
-        httpEndpoint: process.env.BACKEND_URL || 'http://0.0.0.0:8000/graphql/',
-      },
+      default: '~/plugins/apollo-config.js',
     },
   },
 }
