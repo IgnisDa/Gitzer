@@ -140,7 +140,6 @@
     </div>
     <div>
       <CommitMessageForm @commit-change="commitChange" />
-      {{ $store.state.repository }}
     </div>
   </div>
 </template>
@@ -174,6 +173,15 @@ export default {
   },
   mounted() {
     this.fetchStatusAction({ directory: this.$route.query.directory })
+    this.interval = setInterval(
+      function () {
+        this.fetchStatusAction({ directory: this.$route.query.directory })
+      }.bind(this),
+      10000
+    )
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     ...mapActions({
