@@ -22,12 +22,7 @@
       name="summary"
       required
     />
-    <input
-      v-model="formData.commitInfo"
-      type="text"
-      name="commit-info"
-      required
-    />
+    <input v-model="formData.commitInfo" type="text" name="commit-info" />
     <button type="submit">Commit</button>
   </form>
 </template>
