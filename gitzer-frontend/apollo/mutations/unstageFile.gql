@@ -1,4 +1,4 @@
-mutation unstageFile($data: FileCommitChangeInput!) {
+mutation unstageFile($data: FileStageChangeInput!) {
   unstageFile(data: $data) {
     filename
     status

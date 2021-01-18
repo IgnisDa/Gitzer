@@ -1,4 +1,4 @@
-mutation stageFile($data: FileCommitChangeInput!) {
+mutation stageFile($data: FileStageChangeInput!) {
   stageFile(data: $data) {
     filename
     status

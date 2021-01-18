@@ -1,0 +1,6 @@
+mutation performCommit($message: String!, $directory: String!) {
+  performCommit(message: $message, directory: $directory) {
+    status
+    error
+  }
+}

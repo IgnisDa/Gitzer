@@ -1,4 +1,4 @@
-mutation discardFileChange($data: FileCommitChangeInput!) {
+mutation discardFileChange($data: FileStageChangeInput!) {
   discardFileChange(data: $data) {
     filename
     status
