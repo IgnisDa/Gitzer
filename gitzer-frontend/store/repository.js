@@ -12,15 +12,12 @@ export const state = () => ({
 
 export const mutations = {
   setStagedFiles(state, files) {
-    // console.log(state)
     state.stagedFiles = files
   },
   setModifiedFiles(state, files) {
-    // console.log(state)
     state.modifiedFiles = files
   },
   setUntrackedFiles(state, files) {
-    // console.log(state)
     state.untrackedFiles = files
   },
 }
