@@ -7,5 +7,5 @@ type Mutation {
   stageFile(data: FileStageChangeInput!): FileStageChangePayload!
   unstageFile(data: FileStageChangeInput!): FileStageChangePayload!
   discardFileChange(data: FileStageChangeInput!): FileStageChangePayload!
-  performCommit(data: FileStageChangeInput!): FileStageChangePayload!
+  performCommit(message: String!, directory: String!): CommitPayload!
 }
