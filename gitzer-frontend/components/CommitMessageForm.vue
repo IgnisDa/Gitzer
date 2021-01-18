@@ -1,7 +1,7 @@
 <template>
   <form
     class="bg-green-200 container mx-auto h-64"
-    @submit.prevent="submitCommit()"
+    @submit.prevent="commitChange(formData)"
   >
     <select v-model="formData.commitType">
       <option value="">Please select one</option>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data: () => ({
     formData: {
@@ -38,8 +40,18 @@ export default {
     },
   }),
   methods: {
-    submitCommit() {
-      this.$emit('commit-change', this.formData)
+    ...mapActions({
+      commitChangeAction: 'repository/commitChange',
+    }),
+    commitChange(formData) {
+      let commitMessage = `${formData.commitType}(${formData.commitScope}): ${formData.commitSummary}`
+      if (formData.commitInfo) {
+        commitMessage += `\n\n${formData.commitInfo}`
+      }
+      this.commitChangeAction({
+        commitMessage,
+        directory: this.$route.query.directory,
+      })
     },
   },
 }
