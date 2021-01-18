@@ -50,7 +50,6 @@ def stage_file(*_, data):
     directory = data.get("directory")
     repo = git.Repo(directory)
     path = os.path.join(directory, filename)
-    print(path)
     repo.index.add(path)
     return {"filename": filename, "status": True}
 
@@ -91,8 +90,7 @@ def discard_file_change(*_, data):
 
 @mutation.field("performCommit")
 @convert_kwargs_to_snake_case
-def perform_commit(*_, data):
-    name = data.get("name")
-    commit_type = data.get("commit_type")
-    print(name, commit_type)
-    return {"name": data["name"], "status": False}
+def perform_commit(*_, message, directory):
+    repo = git.Repo(directory)
+    repo.index.commit(message)
+    return {"status": False, "error": None}
