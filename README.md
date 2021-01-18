@@ -1,15 +1,10 @@
 # Gitzer
 
-One Paragraph of project description goes here
-
-This initially appeared on
-[gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2), but as
-I can no longer open that page as there are too many comments, I have
-moved it here.
+Gitzer is a web based client for simple git operations.
 
 ## Summary
 
-- [Gitzer](#cookiecutterproject_name)
+- [Gitzer](#gitzer)
   - [Summary](#summary)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
@@ -17,7 +12,6 @@ moved it here.
   - [Running the tests](#running-the-tests)
     - [Break down into end to end tests](#break-down-into-end-to-end-tests)
     - [And coding style tests](#and-coding-style-tests)
-  - [Deployment](#deployment)
   - [Built With](#built-with)
   - [Contributing](#contributing)
   - [Versioning](#versioning)
@@ -33,9 +27,7 @@ for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-    Give examples
+You will need the following
 
 ### Installing
 
@@ -68,10 +60,6 @@ Explain what these tests test and why
 Explain what these tests test and why
 
     Give an example
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
