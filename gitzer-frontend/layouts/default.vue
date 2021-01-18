@@ -1,5 +1,8 @@
 <template>
-  <div :class="mode !== 'production' ? 'debug-screens' : ''">
+  <div
+    class="flex max-w-full"
+    :class="mode !== 'production' ? 'debug-screens' : ''"
+  >
     <Nuxt />
   </div>
 </template>
