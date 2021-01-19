@@ -3,6 +3,10 @@ import statusQuery from '~/apollo/queries/status.gql'
 import discardFileChangeMutation from '~/apollo/mutations/discardFileChange.gql'
 import stageFileMutation from '~/apollo/mutations/stageFile.gql'
 import unstageFileMutation from '~/apollo/mutations/unstageFile.gql'
+import stageAllUntrackedFilesMutation from '~/apollo/mutations/stageAllUntrackedFiles.gql'
+import stageAllModifiedFilesMutation from '~/apollo/mutations/stageAllModifiedFiles.gql'
+import discardAllModifiedFilesMutation from '~/apollo/mutations/discardAllModifiedFiles.gql'
+import unstageAllStagedFilesMutation from '~/apollo/mutations/unstageAllStagedFiles.gql'
 
 export const state = () => ({
   stagedFiles: [],
@@ -105,13 +109,77 @@ export const actions = {
         alert(err)
       })
   },
-  async commitChange({ dispatch }, payload) {
+  async performCommit({ dispatch }, payload) {
     const apolloClient = this.app.apolloProvider.defaultClient
     await apolloClient
       .mutate({
         mutation: performCommitMutation,
         variables: {
           message: payload.commitMessage,
+          directory: payload.directory,
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  stageAllUntrackedFiles({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    apolloClient
+      .mutate({
+        mutation: stageAllUntrackedFilesMutation,
+        variables: {
+          directory: payload.directory,
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  stageAllModifiedFiles({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    apolloClient
+      .mutate({
+        mutation: stageAllModifiedFilesMutation,
+        variables: {
+          directory: payload.directory,
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  discardAllModifiedFiles({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    apolloClient
+      .mutate({
+        mutation: discardAllModifiedFilesMutation,
+        variables: {
+          directory: payload.directory,
+        },
+      })
+      .then(() => {
+        dispatch('fetchStatus', { directory: payload.directory })
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  },
+  unstageAllStagedFiles({ dispatch }, payload) {
+    const apolloClient = this.app.apolloProvider.defaultClient
+    apolloClient
+      .mutate({
+        mutation: unstageAllStagedFilesMutation,
+        variables: {
           directory: payload.directory,
         },
       })
