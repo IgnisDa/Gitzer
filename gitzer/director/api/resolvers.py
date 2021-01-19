@@ -3,8 +3,6 @@ import os
 import git
 from ariadne import MutationType, QueryType, convert_kwargs_to_snake_case
 
-from .. import models
-
 query = QueryType()
 mutation = MutationType()
 
@@ -13,7 +11,6 @@ mutation = MutationType()
 @convert_kwargs_to_snake_case
 def status(*_, directory):
     repo = git.Repo(directory)
-    models.Repository.objects.get_or_create(path=repo.working_dir)
     untracked_files = [{"name": file} for file in repo.untracked_files]
     modified_files = [{"name": file.a_path} for file in repo.index.diff(None)]
     try:
@@ -94,3 +91,58 @@ def perform_commit(*_, message, directory):
     repo = git.Repo(directory)
     repo.index.commit(message)
     return {"status": False, "error": None}
+
+
+@mutation.field("stageAllUntrackedFiles")
+@convert_kwargs_to_snake_case
+def stage_all_untracked_files(*_, directory):
+    repo = git.Repo(directory)
+    for filename in repo.untracked_files:
+        path = os.path.join(directory, filename)
+        repo.index.add(path)
+    return {"status": True, "error": None}
+
+
+@mutation.field("stageAllModifiedFiles")
+@convert_kwargs_to_snake_case
+def stage_all_modified_files(*_, directory):
+    repo = git.Repo(directory)
+    for filename in repo.index.diff(None):
+        path = os.path.join(directory, filename.a_path)
+        repo.index.add(path)
+    return {"status": True, "error": None}
+
+
+@mutation.field("discardAllModifiedFiles")
+@convert_kwargs_to_snake_case
+def discard_all_modified_files(*_, directory):
+    repo = git.Repo(directory)
+    restore = repo.git
+    status = True
+    error = None
+    for filename in repo.index.diff(None):
+        try:
+            path = os.path.join(directory, filename.a_path)
+            restore.restore(path)
+        except git.exc.GitCommandError:
+            status = False
+            error = "There was a problem resolving your request"
+    return {"status": status, "error": error}
+
+
+@mutation.field("unstageAllStagedFiles")
+@convert_kwargs_to_snake_case
+def unstage_all_staged_files(*_, directory):
+    repo = git.Repo(directory)
+    restore = repo.git
+    status = True
+    error = None
+    for filename in repo.index.diff("HEAD"):
+        print(filename)
+        try:
+            path = os.path.join(directory, filename.a_path)
+            restore.restore(path, "--staged")
+        except git.exc.GitCommandError:
+            status = False
+            error = "There was a problem resolving your request"
+    return {"status": status, "error": error}
