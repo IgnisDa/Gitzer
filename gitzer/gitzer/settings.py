@@ -8,9 +8,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dummy")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", False) == "1"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 # Application definition
 
@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     # user installed apps
     "director.apps.DirectorConfig",
     # django addons
-    "django_extensions",
     "ariadne.contrib.django",
     "corsheaders",
 ]
@@ -122,5 +121,6 @@ if not DEBUG:
     )
 # development only settings
 if DEBUG:
-    ALLOWED_HOSTS += "*"
+    ALLOWED_HOSTS += ["*"]
     CORS_ALLOW_ALL_ORIGINS = True
+    INSTALLED_APPS += ["django_extensions"]
