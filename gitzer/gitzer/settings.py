@@ -108,12 +108,8 @@ CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:3000", "http://localhost:3000")
 TIME_ZONE = "Asia/Kolkata"
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("DJANGO_DATABASE_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("DJANGO_DATABASE_NAME", BASE_DIR / "db.sqlite3"),
-        "USER": os.environ.get("DJANGO_DATABASE_USER", "admin-user"),
-        "PASSWORD": os.environ.get("DJANGO_DATABASE_PASSWORD", "admin-password"),
-        "HOST": os.environ.get("DJANGO_DATABASE_HOST", "localhost"),
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 STATIC_ROOT = BASE_DIR / "static"
@@ -126,4 +122,5 @@ if not DEBUG:
     )
 # development only settings
 if DEBUG:
-    ALLOWED_HOSTS += ["*"]
+    ALLOWED_HOSTS += "*"
+    CORS_ALLOW_ALL_ORIGINS = True
