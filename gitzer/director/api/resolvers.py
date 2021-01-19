@@ -138,7 +138,6 @@ def unstage_all_staged_files(*_, directory):
     status = True
     error = None
     for filename in repo.index.diff("HEAD"):
-        print(filename)
         try:
             path = os.path.join(directory, filename.a_path)
             restore.restore(path, "--staged")
