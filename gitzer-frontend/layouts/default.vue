@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex max-w-full"
+    class="flex max-w-full antialiased"
     :class="mode !== 'production' ? 'debug-screens' : ''"
   >
     <Nuxt />
