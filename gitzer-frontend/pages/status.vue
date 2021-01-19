@@ -198,13 +198,22 @@
       <div class="flex flex-wrap my-auto flex-">
         <CommitMessageForm />
       </div>
-      <div class="flex flex-grow">
+      <div class="flex flex-grow text-pink-600">
         <NuxtLink :to="{ name: 'index' }" class="m-auto">
           <FontAwesomeIcon
             class="h-12 hover:text-gray-50 transition duration-150 ease-in-out"
             :icon="['fas', 'home']"
           />
         </NuxtLink>
+        <button
+          class="m-auto"
+          @click="fetchStatusAction({ directory: $route.query.directory })"
+        >
+          <FontAwesomeIcon
+            class="h-12 hover:text-gray-50 transition duration-150 ease-in-out"
+            :icon="['fas', 'sync']"
+          />
+        </button>
       </div>
     </div>
   </div>
