@@ -6,6 +6,7 @@ import {
   faSync,
   faMinus,
   faTrash,
+  faFolderOpen,
   faHome,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -14,7 +15,7 @@ config.autoAddCss = false
 
 // You can add your icons directly in this plugin. See other examples for how you
 // can add other styles or just individual icons.
-library.add(faPlus, faMinus, faTrash, faHome, faSync)
+library.add(faPlus, faMinus, faTrash, faHome, faSync, faFolderOpen)
 
 // Register the component globally
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
