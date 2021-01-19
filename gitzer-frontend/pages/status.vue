@@ -10,15 +10,28 @@
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
+                class="text-3xl flex justify-between items-center font-serif text-blue-500 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
               >
-                Untracked Files
+                <div>Untracked Files</div>
+                <button
+                  class="mx-1 shadow-inner rounded-full p-1"
+                  @click="
+                    stageAllUntrackedFilesAction({
+                      directory: $route.query.directory,
+                    })
+                  "
+                >
+                  <FontAwesomeIcon
+                    class="h-7 text-yellow-400"
+                    :icon="['fas', 'plus']"
+                  />
+                </button>
               </div>
               <div v-if="untrackedFiles.length !== 0">
                 <div
                   v-for="(file, index) in untrackedFiles"
                   :key="index"
-                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl"
+                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
                   :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                 >
                   <div class="font-mono justify-items-center">
@@ -51,15 +64,43 @@
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
+                class="text-3xl flex justify-between items-center font-serif text-blue-500 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
               >
-                Modified Files
+                <div>Modified Files</div>
+                <div>
+                  <button
+                    class="mx-1 shadow-inner rounded-full p-1"
+                    @click="
+                      stageAllModifiedFilesAction({
+                        directory: $route.query.directory,
+                      })
+                    "
+                  >
+                    <FontAwesomeIcon
+                      class="h-7 text-yellow-400"
+                      :icon="['fas', 'plus']"
+                    />
+                  </button>
+                  <button
+                    class="mx-1 shadow-inner rounded-full p-1"
+                    @click="
+                      discardAllModifiedFilesAction({
+                        directory: $route.query.directory,
+                      })
+                    "
+                  >
+                    <FontAwesomeIcon
+                      class="h-7 text-yellow-400"
+                      :icon="['fas', 'trash']"
+                    />
+                  </button>
+                </div>
               </div>
               <div v-if="modifiedFiles.length !== 0">
                 <div
                   v-for="(file, index) in modifiedFiles"
                   :key="index"
-                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl"
+                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
                   :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                 >
                   <div class="font-mono justify-items-center">
@@ -71,6 +112,17 @@
                     </div>
                   </div>
                   <div class="flex items-center">
+                    <button
+                      class="mx-1 shadow-inner rounded-full p-1"
+                      @click="
+                        stageFileAction({
+                          filename: file.name,
+                          directory: $route.query.directory,
+                        })
+                      "
+                    >
+                      <FontAwesomeIcon class="h-7" :icon="['fas', 'plus']" />
+                    </button>
                     <button
                       class="mx-1 shadow-inner rounded-full p-1"
                       @click="
@@ -92,15 +144,28 @@
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl text-center font-serif text-blue-800 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
+                class="text-3xl flex justify-between items-center font-serif text-blue-500 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
               >
-                Staged Files
+                <div>Staged Files</div>
+                <button
+                  class="mx-1 shadow-inner rounded-full p-1"
+                  @click="
+                    unstageAllStagedFilesAction({
+                      directory: $route.query.directory,
+                    })
+                  "
+                >
+                  <FontAwesomeIcon
+                    class="h-7 text-yellow-400"
+                    :icon="['fas', 'minus']"
+                  />
+                </button>
               </div>
               <div v-if="stagedFiles.length !== 0">
                 <div
                   v-for="(file, index) in stagedFiles"
                   :key="index"
-                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl"
+                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
                   :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                 >
                   <div class="font-mono justify-items-center">
@@ -130,8 +195,16 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap my-auto flex-grow">
+      <div class="flex flex-wrap my-auto flex-">
         <CommitMessageForm />
+      </div>
+      <div class="flex flex-grow">
+        <NuxtLink :to="{ name: 'index' }" class="m-auto">
+          <FontAwesomeIcon
+            class="h-12 hover:text-gray-50 transition duration-150 ease-in-out"
+            :icon="['fas', 'home']"
+          />
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -151,9 +224,6 @@ export default {
       return array.slice(0, array.length - 1).join('/')
     },
   },
-  data: () => ({
-    loading: 0,
-  }),
   head: () => ({
     title: 'Status',
   }),
@@ -182,6 +252,10 @@ export default {
       stageFileAction: 'repository/stageFile',
       unstageFileAction: 'repository/unstageFile',
       discardFileChangeAction: 'repository/discardFileChange',
+      stageAllUntrackedFilesAction: 'repository/stageAllUntrackedFiles',
+      stageAllModifiedFilesAction: 'repository/stageAllModifiedFiles',
+      discardAllModifiedFilesAction: 'repository/discardAllModifiedFiles',
+      unstageAllStagedFilesAction: 'repository/unstageAllStagedFiles',
     }),
   },
 }
