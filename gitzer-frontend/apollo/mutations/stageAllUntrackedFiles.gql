@@ -1,0 +1,6 @@
+mutation stageAllUntrackedFiles($directory: String!) {
+  stageAllUntrackedFiles(directory: $directory) {
+    status
+    error
+  }
+}

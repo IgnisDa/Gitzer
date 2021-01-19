@@ -1,0 +1,6 @@
+mutation discardAllModifiedFiles($directory: String!) {
+  discardAllModifiedFiles(directory: $directory) {
+    status
+    error
+  }
+}

@@ -1,0 +1,6 @@
+mutation unstageAllStagedFiles($directory: String!) {
+  unstageAllStagedFiles(directory: $directory) {
+    status
+    error
+  }
+}

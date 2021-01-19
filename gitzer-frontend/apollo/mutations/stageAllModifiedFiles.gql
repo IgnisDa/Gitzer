@@ -1,0 +1,6 @@
+mutation stageAllModifiedFiles($directory: String!) {
+  stageAllModifiedFiles(directory: $directory) {
+    status
+    error
+  }
+}
