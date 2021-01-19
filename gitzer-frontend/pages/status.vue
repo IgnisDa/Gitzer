@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen flex w-full from-gray-900 bg-gradient-to-l to-gray-800"
+    class="min-h-screen flex w-full from-indigo-900 bg-gradient-to-b to-gray-800"
   >
     <div class="container mx-auto flex flex-col">
       <div class="flex-grow flex">
@@ -56,6 +56,12 @@
                     </button>
                   </div>
                 </div>
+              </div>
+              <div v-else class="h-28 flex text-white">
+                <FontAwesomeIcon
+                  class="h-20 m-auto"
+                  :icon="['fas', 'folder-open']"
+                />
               </div>
             </div>
           </div>
@@ -137,6 +143,12 @@
                   </div>
                 </div>
               </div>
+              <div v-else class="h-28 flex text-white">
+                <FontAwesomeIcon
+                  class="h-20 m-auto"
+                  :icon="['fas', 'folder-open']"
+                />
+              </div>
             </div>
           </div>
           <div
@@ -190,6 +202,12 @@
                     </button>
                   </div>
                 </div>
+              </div>
+              <div v-else class="h-28 flex text-white">
+                <FontAwesomeIcon
+                  class="h-20 m-auto"
+                  :icon="['fas', 'folder-open']"
+                />
               </div>
             </div>
           </div>
