@@ -24,7 +24,7 @@
                 />
               </form>
             </div>
-            <div class="mx-2 mt-2 text-gray-500">
+            <div class="mx-2 mt-2 text-gray-200">
               Path to a local git repository
             </div>
           </div>
