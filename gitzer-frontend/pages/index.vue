@@ -16,6 +16,7 @@
                 @submit.prevent="checkRepository()"
               >
                 <input
+                  ref="directory"
                   v-model="directory"
                   type="text"
                   class="flex-shrink text-black font-serif font-thin flex-grow leading-normal w-px flex-1 border h-10 border-grey-light rounded rounded-r-none px-3 relative"
@@ -85,8 +86,12 @@ export default {
   },
   mounted() {
     this.checkRepository()
+    this.focusInput()
   },
   methods: {
+    focusInput() {
+      this.$refs.directory.focus()
+    },
     async checkRepository() {
       await this.$apollo
         .query({
