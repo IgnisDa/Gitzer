@@ -8,4 +8,8 @@ type Mutation {
   unstageFile(data: FileStageChangeInput!): FileStageChangePayload!
   discardFileChange(data: FileStageChangeInput!): FileStageChangePayload!
   performCommit(message: String!, directory: String!): CommitPayload!
+  stageAllUntrackedFiles(directory: String!): CommitPayload!
+  stageAllModifiedFiles(directory: String!): CommitPayload!
+  discardAllModifiedFiles(directory: String!): CommitPayload!
+  unstageAllStagedFiles(directory: String!): CommitPayload!
 }
