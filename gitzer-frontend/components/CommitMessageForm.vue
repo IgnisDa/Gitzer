@@ -2,12 +2,14 @@
   <div class="flex-grow">
     <form class="m-4" @submit.prevent="commitChange(formData)">
       <div
-        class="text-3xl text-center font-serif text-blue-800 bg-black p-5 rounded-3xl ring ring-green-600"
+        class="text-3xl text-center font-serif text-blue-500 bg-black p-5 rounded-3xl ring ring-green-600"
       >
         Commit
       </div>
 
-      <div class="flex text-sm sm:text-base md:text-lg flex-wrap mt-4">
+      <div
+        class="flex text-sm sm:text-base md:text-lg flex-wrap mt-4 font-mono"
+      >
         <div class="w-3/5 flex flex-col">
           <div class="mx-2 text-purple-200">Type of commit*:</div>
           <select
@@ -89,7 +91,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      commitChangeAction: 'repository/commitChange',
+      performCommitAction: 'repository/commitChange',
     }),
     setScope() {
       this.formData.commitScope = this.commitScopeGetter
@@ -103,7 +105,7 @@ export default {
       if (formData.commitInfo) {
         commitMessage += `\n\n${formData.commitInfo}`
       }
-      this.commitChangeAction({
+      this.performCommitAction({
         commitMessage,
         directory: this.$route.query.directory,
       })
