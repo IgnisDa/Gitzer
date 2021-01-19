@@ -28,9 +28,6 @@ PG_VERSION=13
 
 coloredEcho "cyan" "Configuration variables complete"
 
-###########################################################
-# Changes below this line are probably not necessary
-###########################################################
 print_db_usage () {
   coloredEcho "cyan" "Admin access to postgres user via VM:"
   coloredEcho "cyan" "  vagrant ssh"
