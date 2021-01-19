@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      performCommitAction: 'repository/commitChange',
+      performCommitAction: 'repository/performCommit',
     }),
     setScope() {
       this.formData.commitScope = this.commitScopeGetter
