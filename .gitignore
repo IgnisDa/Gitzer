@@ -349,3 +349,4 @@ personal/
 **/website/i18n/*
 sw.js
 gitzer.tar.gz
+*.logs
