@@ -78,7 +78,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data: () => ({
     formData: {
-      commitType: 'fix',
+      commitType: 'feat',
       commitScope: '',
       commitSummary: '',
       commitInfo: '',
