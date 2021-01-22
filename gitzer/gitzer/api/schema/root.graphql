@@ -1,6 +1,7 @@
 type Query {
   status(directory: String!): Status!
   existence(directory: String!): Existence!
+  presentWorkingDirectory: String!
 }
 
 type Mutation {
