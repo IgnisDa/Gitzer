@@ -28,7 +28,7 @@ def status(*_, directory):
 @query.field("presentWorkingDirectory")
 @convert_kwargs_to_snake_case
 def present_working_directory(*_):
-    path = pathlib.Path(__file__).parent.resolve()
+    path = os.getcwd()
     return str(path)
 
 
