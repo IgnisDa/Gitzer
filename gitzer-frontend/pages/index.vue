@@ -70,10 +70,11 @@
 
 <script>
 import existenceQuery from '~/apollo/queries/existence.gql'
+import presentWorkingDirectoryQuery from '~/apollo/queries/presentWorkingDirectory.gql'
 
 export default {
   data: () => ({
-    directory: '/home/vagrant/temp/',
+    directory: '',
     existence: false,
   }),
   head() {
@@ -85,12 +86,25 @@ export default {
     },
   },
   mounted() {
+    this.presentWorkingDirectory()
     this.checkRepository()
     this.focusInput()
   },
   methods: {
     focusInput() {
       this.$refs.directory.focus()
+    },
+    async presentWorkingDirectory() {
+      await this.$apollo
+        .query({
+          query: presentWorkingDirectoryQuery,
+        })
+        .then((data) => {
+          this.directory = data.data.presentWorkingDirectory
+        })
+        .catch((error) => {
+          this.existence = error
+        })
     },
     async checkRepository() {
       await this.$apollo
