@@ -69,7 +69,7 @@ def backend(port):
 def frontend(port):
     client_address = ("127.0.0.1:", str(port))
     gitzer_url = "http://" + "".join(client_address) + "/"
-    with socketserver.TCPServer((client_address[0], port), Handler) as httpd:
+    with socketserver.TCPServer(("", port), Handler) as httpd:
         print("Access Gitzer at:", gitzer_url)
         httpd.serve_forever()
 
