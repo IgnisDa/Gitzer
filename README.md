@@ -10,6 +10,7 @@ unstage and commit your git changes. It uses the conventional commit
   - [Summary](#summary)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
+    - [Uninstalling](#uninstalling)
   - [Built With](#built-with)
   - [Contributing](#contributing)
   - [Versioning](#versioning)
@@ -28,7 +29,17 @@ rest of your system by vendorizing its dependencies. This is the recommended
 way of installing Gitzer.
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/development/get-gitzer.py | python
+curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py | python
+```
+
+### Uninstalling
+
+Gitzer can be completely uninstalled from your system by running the `get-gitzer.py`
+script with the `-u` flag.
+
+```bash
+curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py -o get-gitzer.py
+python get-gitzer.py -u
 ```
 
 ## Built With
