@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gitzer"
 version = "0.1.0"
-description = ""
+description = "Gitzer is a web based client for simple git operations."
 authors = [
     "IgnisDa <ignisda2002@gmail.com>",
 ]
