@@ -28,34 +28,36 @@
                 </button>
               </div>
               <div v-if="untrackedFiles.length !== 0">
-                <div
-                  v-for="(file, index) in untrackedFiles"
-                  :key="index"
-                  class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
-                  :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
-                >
-                  <div class="font-mono justify-items-center">
-                    <div class="text-white">
-                      {{ file.name | getFilename }}
+                <transition-group tag="div" name="untracked-files">
+                  <div
+                    v-for="(file, index) in untrackedFiles"
+                    :key="index + 0"
+                    class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
+                    :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
+                  >
+                    <div class="font-mono justify-items-center">
+                      <div class="text-white">
+                        {{ file.name | getFilename }}
+                      </div>
+                      <div class="ml-2 text-sm text-gray-300">
+                        {{ file.name | getFileRoot }}
+                      </div>
                     </div>
-                    <div class="ml-2 text-sm text-gray-300">
-                      {{ file.name | getFileRoot }}
+                    <div class="flex items-center">
+                      <button
+                        class="mx-1 shadow-inner rounded-full p-1"
+                        @click="
+                          stageFileAction({
+                            filename: file.name,
+                            directory: $route.query.directory,
+                          })
+                        "
+                      >
+                        <FontAwesomeIcon class="h-7" :icon="['fas', 'plus']" />
+                      </button>
                     </div>
                   </div>
-                  <div class="flex items-center">
-                    <button
-                      class="mx-1 shadow-inner rounded-full p-1"
-                      @click="
-                        stageFileAction({
-                          filename: file.name,
-                          directory: $route.query.directory,
-                        })
-                      "
-                    >
-                      <FontAwesomeIcon class="h-7" :icon="['fas', 'plus']" />
-                    </button>
-                  </div>
-                </div>
+                </transition-group>
               </div>
               <div v-else class="h-28 flex text-white">
                 <FontAwesomeIcon
@@ -304,5 +306,17 @@ export default {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #ee2828;
+}
+.untracked-files-enter-active,
+.untracked-files-leave-active {
+  transition: all 1s;
+}
+.untracked-files-enter,
+.untracked-files-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.untracked-files-move {
+  transition: transform 1s;
 }
 </style>
