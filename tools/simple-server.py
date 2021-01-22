@@ -1,6 +1,9 @@
 import argparse
+import http.server
 import multiprocessing
+import os
 import pathlib
+import socketserver
 import sys
 
 sys.path.insert(
@@ -15,6 +18,22 @@ from gitzer.wsgi import application  # noqa: E402
 
 def _half_cpu_count():
     return int(multiprocessing.cpu_count() / 2)
+
+
+def expanduser(path):
+    expanded = os.path.expanduser(path)
+    if path.startswith("~/") and expanded.startswith("//"):
+        expanded = expanded[1:]
+    return expanded
+
+
+HOME = pathlib.Path(expanduser("~/"))
+GITZER_PATH = pathlib.Path(HOME) / ".gitzer"
+
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=GITZER_PATH, **kwargs)
 
 
 class StandaloneApplication(gunicorn.app.base.BaseApplication):
@@ -41,20 +60,17 @@ def backend(port):
         "bind": "%s:%s" % ("127.0.0.1", port),
         "workers": _half_cpu_count(),
         "capture_output": True,
-        "accesslog": "gunicorn.log",
-        "errorlog": "gunicorn.error.log",
+        "accesslog": str(GITZER_PATH / "gunicorn.log"),
+        "errorlog": str(GITZER_PATH / "gunicorn.error.log"),
     }
     StandaloneApplication(application, options).run()
 
 
 def frontend(port):
-    import http.server
-    import socketserver
-
-    Handler = http.server.SimpleHTTPRequestHandler
-
-    with socketserver.TCPServer(("127.0.0.1", port), Handler) as httpd:
-        print("serving at port", port)
+    client_address = ("127.0.0.1:", str(port))
+    gitzer_url = "http://" + "".join(client_address) + "/"
+    with socketserver.TCPServer((client_address[0], port), Handler) as httpd:
+        print("Access Gitzer at:", gitzer_url)
         httpd.serve_forever()
 
 
@@ -86,4 +102,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Shutting down servers")
