@@ -103,7 +103,12 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
 ]
-CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:3000", "http://localhost:3000")
+CORS_ORIGIN_WHITELIST = (
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+    "http://localhost:8533",
+    "http://127.0.0.1:8533",
+)
 TIME_ZONE = "Asia/Kolkata"
 DATABASES = {
     "default": {
@@ -124,3 +129,22 @@ if DEBUG:
     ALLOWED_HOSTS += ["*"]
     CORS_ALLOW_ALL_ORIGINS = True
     INSTALLED_APPS += ["django_extensions"]
+# logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "out.logs",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}
