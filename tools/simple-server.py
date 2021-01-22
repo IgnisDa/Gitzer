@@ -76,23 +76,9 @@ def frontend(port):
 
 def main():
     parser = argparse.ArgumentParser(description="Start the Gitzer servers")
-    parser.add_argument(
-        "--backend-port",
-        dest="backend_port",
-        type=int,
-        help="the port on which the backend server will run",
-        default=8534,
-    )
-    parser.add_argument(
-        "--frontend-port",
-        dest="frontend_port",
-        type=int,
-        help="the port on which the frontend server will run",
-        default=8533,
-    )
-    args = parser.parse_args()
-    backend_port = args.backend_port
-    frontend_port = args.frontend_port
+    # args = parser.parse_args()
+    backend_port = 8534
+    frontend_port = 8533
     p1 = multiprocessing.Process(target=backend, args=(backend_port,))
     p2 = multiprocessing.Process(target=frontend, args=(frontend_port,))
     p1.start()
