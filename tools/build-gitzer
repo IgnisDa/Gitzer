@@ -7,10 +7,10 @@ mkdir "build/"
 cd ~/Gitzer
 cd "$frontend_folder" && yarn && yarn generate
 cd ~/Gitzer
-rsync -av --progress "$frontend_folder/dist/" "build/"
+rsync -a --progress "$frontend_folder/dist/" "build/"
 
 cd ~/Gitzer
-rsync -av --progress "$backend_folder/" "build/" \
+rsync -a --progress "$backend_folder/" "build/" \
     --exclude "tests" --exclude ".venv" \
     --exclude "poetry.lock" \
     --exclude ".flake8" --exclude "db.sqlite3" \
