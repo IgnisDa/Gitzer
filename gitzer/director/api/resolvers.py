@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 import git
 from ariadne import MutationType, QueryType, convert_kwargs_to_snake_case
@@ -22,6 +23,13 @@ def status(*_, directory):
         "modified_files": modified_files,
         "staged_files": staged_files,
     }
+
+
+@query.field("presentWorkingDirectory")
+@convert_kwargs_to_snake_case
+def present_working_directory(*_):
+    path = pathlib.Path(__file__).parent.resolve()
+    return str(path)
 
 
 @query.field("existence")
