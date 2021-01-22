@@ -1,4 +1,5 @@
 import os
+import tempfile
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -129,6 +130,17 @@ if DEBUG:
     ALLOWED_HOSTS += ["*"]
     CORS_ALLOW_ALL_ORIGINS = True
     INSTALLED_APPS += ["django_extensions"]
+
+
+def expanduser(path):
+    expanded = os.path.expanduser(path)
+    if path.startswith("~/") and expanded.startswith("//"):
+        expanded = expanded[1:]
+    return expanded
+
+
+HOME = Path(expanduser("~/"))
+GITZER_PATH = Path(HOME) / ".gitzer"
 # logging
 LOGGING = {
     "version": 1,
@@ -137,7 +149,7 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "out.logs",
+            "filename": Path(GITZER_PATH / "gitzer.out.log"),
         },
     },
     "loggers": {
