@@ -46,8 +46,9 @@ python get-gitzer.py -u
 ## Using
 
 To use gitzer, simply navigate to any directory which is a git repository and execute
-`git gitzer` in it. Copy paste the URL in your browser and then use it. You can stop the
-server again using _CTRL + C_ in the terminal.
+`git gitzer` in it. A browser should open up with the correct URL. If it doesn't, copy
+paste the URL in your browser and then use it. You can stop the server again
+using _CTRL + C_ in the terminal.
 
 ## Built With
 
