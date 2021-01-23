@@ -32,6 +32,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=GITZER_PATH, **kwargs)
 
 
+class TCPServer(socketserver.TCPServer):
+    allow_reuse_address = True
+
+
 class StandaloneApplication(gunicorn.app.base.BaseApplication):
     def __init__(self, app, options=None):
         self.options = options or {}
@@ -65,7 +69,7 @@ def backend(port):
 def frontend(port):
     client_address = ("127.0.0.1:", str(port))
     gitzer_url = "http://" + "".join(client_address) + "/"
-    with socketserver.TCPServer(("", port), Handler) as httpd:
+    with TCPServer(("", port), Handler) as httpd:
         print("Access Gitzer at:", gitzer_url)
         httpd.serve_forever()
 
