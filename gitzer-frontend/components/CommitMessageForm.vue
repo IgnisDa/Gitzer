@@ -93,6 +93,12 @@ export default {
     ...mapActions({
       performCommitAction: 'repository/performCommit',
     }),
+    resetCommit() {
+      this.formData.commitType = 'feat'
+      this.formData.commitScope = ''
+      this.formData.commitSummary = ''
+      this.formData.commitInfo = ''
+    },
     setScope() {
       this.formData.commitScope = this.commitScopeGetter
     },
@@ -108,6 +114,8 @@ export default {
       this.performCommitAction({
         commitMessage,
         directory: this.$route.query.directory,
+      }).then(() => {
+        this.resetCommit()
       })
     },
   },
