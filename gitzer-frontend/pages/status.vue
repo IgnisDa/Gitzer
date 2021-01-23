@@ -233,7 +233,7 @@
       <div class="flex flex-grow text-white">
         <NuxtLink :to="{ name: 'index' }" class="m-auto" title="Home">
           <FontAwesomeIcon
-            class="h-12 hover:text-black transition duration-150 ease-in-out"
+            class="h-12 hover:text-red-600 transition duration-150 ease-in-out"
             :icon="['fas', 'home']"
           />
         </NuxtLink>
@@ -243,7 +243,7 @@
           @click="fetchStatusAction({ directory: $route.query.directory })"
         >
           <FontAwesomeIcon
-            class="h-12 hover:text-black transition duration-150 ease-in-out"
+            class="h-12 hover:text-red-600 transition duration-150 ease-in-out"
             :icon="['fas', 'sync']"
           />
         </button>
