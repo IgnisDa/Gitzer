@@ -5,7 +5,9 @@ frontend_folder="gitzer-frontend"
 rm -rf "build/"
 mkdir "build/"
 cd ~/Gitzer
-cd "$frontend_folder" && yarn && yarn generate
+cd "$frontend_folder" && secrets=$(<.env) && rm .env
+yarn && yarn generate
+echo $secrets > .env
 cd ~/Gitzer
 rsync -a --progress "$frontend_folder/dist/" "build/"
 
@@ -23,5 +25,4 @@ cd ~/Gitzer
 cp "tools/simple-server.py" "build/simple-server.py"
 
 version=$(<VERSION)
-echo "$version"
 tar cvfz "gitzer-$version.tar.gz" build/
