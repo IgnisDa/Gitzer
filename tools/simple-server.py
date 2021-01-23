@@ -72,6 +72,7 @@ def frontend(port):
     gitzer_url = "http://" + "".join(client_address) + "/"
     with TCPServer(("", port), Handler) as httpd:
         print("Access Gitzer at:", gitzer_url)
+        webbrowser.open("http://127.0.0.1:8533/")
         httpd.serve_forever()
 
 
@@ -86,7 +87,6 @@ def main():
     p2.start()
     p1.join()
     p2.join()
-    webbrowser.open('http://127.0.0.1:8533/')
 
 
 if __name__ == "__main__":
