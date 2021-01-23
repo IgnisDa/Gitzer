@@ -5,6 +5,7 @@ import os
 import pathlib
 import socketserver
 import sys
+import webbrowser
 
 sys.path.insert(
     0,
@@ -85,6 +86,7 @@ def main():
     p2.start()
     p1.join()
     p2.join()
+    webbrowser.open('http://127.0.0.1:8533/')
 
 
 if __name__ == "__main__":
