@@ -22,4 +22,6 @@ pip3 install -r requirements.txt
 cd ~/Gitzer
 cp "tools/simple-server.py" "build/simple-server.py"
 
-tar cvfz gitzer.tar.gz build/
+version=$(<VERSION)
+echo "$version"
+tar cvfz "gitzer-$version.tar.gz" build/
