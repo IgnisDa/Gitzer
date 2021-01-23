@@ -49,7 +49,7 @@ python get-gitzer.py -u
 - [GraphQL](https://graphql.org/) - Used to make API calls from frontend to backend
 - [Araidne](https://ariadnegraphql.org/) - Used to process the API call in the backend
 - [Tailwind CSS](https://graphql.org/) - CSS framework to style the website
-- [Docusaurus](https://docusaurus.io/) - used for generating the documentation
+- [Docusaurus](https://docusaurus.io/) - Used for generating the documentation
 
 ## Contributing
 
