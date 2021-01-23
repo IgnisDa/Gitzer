@@ -16,10 +16,6 @@ import gunicorn.app.base  # noqa: E402
 from gitzer.wsgi import application  # noqa: E402
 
 
-def _half_cpu_count():
-    return int(multiprocessing.cpu_count() / 2)
-
-
 def expanduser(path):
     expanded = os.path.expanduser(path)
     if path.startswith("~/") and expanded.startswith("//"):
@@ -58,7 +54,7 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 def backend(port):
     options = {
         "bind": "%s:%s" % ("127.0.0.1", port),
-        "workers": _half_cpu_count(),
+        "workers": 1,
         "capture_output": True,
         "accesslog": str(GITZER_PATH / "gunicorn.log"),
         "errorlog": str(GITZER_PATH / "gunicorn.error.log"),
@@ -75,7 +71,7 @@ def frontend(port):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Start the Gitzer servers")
+    argparse.ArgumentParser(description="Start the Gitzer servers")
     # args = parser.parse_args()
     backend_port = 8534
     frontend_port = 8533
