@@ -51,6 +51,10 @@ export default {
       poll: 1000,
     },
   },
+  privateRuntimeConfig: {
+    backendUrl:
+      process.env.VUE_APP_BACKEND_URL || 'http://127.0.0.1:8534/graphql/',
+  },
   target: 'static',
   apollo: {
     clientConfigs: {
