@@ -11,6 +11,7 @@ unstage and commit your git changes. It uses the conventional commit
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
     - [Uninstalling](#uninstalling)
+  - [Using](#using)
   - [Built With](#built-with)
   - [Contributing](#contributing)
   - [Versioning](#versioning)
@@ -41,6 +42,12 @@ script with the `-u` flag.
 curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py -o get-gitzer.py
 python get-gitzer.py -u
 ```
+
+## Using
+
+To use gitzer, simply navigate to any directory which is a git repository and execute
+`git gitzer` in it. Copy paste the URL in your browser and then use it. You can stop the
+server again using _CTRL + C_ in the terminal.
 
 ## Built With
 
