@@ -69,7 +69,7 @@ class Installer:
         size = int(meta["Content-Length"])
         colored_print(
             "INFO",
-            "  - Downloading {} ({:.2f}MB)".format(gzip_name, size / 1024 / 1024),
+            "  - Downloading {} ({:.2f} MB)".format(gzip_name, size / 1024 / 1024),
         )
 
         with self.gitzer_temp_directory() as dir_:
