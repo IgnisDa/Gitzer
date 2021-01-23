@@ -44,7 +44,7 @@
                 class="h-24 w-24 fill-current rounded-full mx-auto transition ease-out duration-500"
                 :class="
                   existence.exists === true
-                    ? 'text-yellow-300 hover:text-yellow-700 cursor-pointer'
+                    ? 'text-purple-600 hover:text-pink-600 cursor-pointer'
                     : 'text-black cursor-default'
                 "
                 viewBox="0 0 24 24"
