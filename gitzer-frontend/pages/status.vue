@@ -14,6 +14,7 @@
               >
                 <div>Untracked Files</div>
                 <button
+                  title="Stage All Files"
                   class="mx-1 shadow-inner rounded-full p-1"
                   @click="
                     stageAllUntrackedFilesAction({
@@ -46,6 +47,7 @@
                     <div class="flex items-center">
                       <button
                         class="mx-1 shadow-inner rounded-full p-1"
+                        title="Stage File"
                         @click="
                           stageFileAction({
                             filename: file.name,
@@ -77,6 +79,7 @@
                 <div>Modified Files</div>
                 <div>
                   <button
+                    title="Stage All Files"
                     class="mx-1 shadow-inner rounded-full p-1"
                     @click="
                       stageAllModifiedFilesAction({
@@ -91,6 +94,7 @@
                   </button>
                   <button
                     class="mx-1 shadow-inner rounded-full p-1"
+                    title="Discard All Modified Files"
                     @click="
                       discardAllModifiedFilesAction({
                         directory: $route.query.directory,
@@ -122,6 +126,7 @@
                     </div>
                     <div class="flex items-center">
                       <button
+                        title="Stage Changes"
                         class="mx-1 shadow-inner rounded-full p-1"
                         @click="
                           stageFileAction({
@@ -134,6 +139,7 @@
                       </button>
                       <button
                         class="mx-1 shadow-inner rounded-full p-1"
+                        title="Discard Changes"
                         @click="
                           discardFileChangeAction({
                             filename: file.name,
@@ -165,6 +171,7 @@
                 <div>Staged Files</div>
                 <button
                   class="mx-1 shadow-inner rounded-full p-1"
+                  title="Unstage All Changes"
                   @click="
                     unstageAllStagedFilesAction({
                       directory: $route.query.directory,
@@ -196,6 +203,7 @@
                     <div class="flex items-center">
                       <button
                         class="mx-1 shadow-inner rounded-full p-1"
+                        title="Unstage File"
                         @click="
                           unstageFileAction({
                             filename: file.name,
@@ -222,19 +230,20 @@
       <div class="flex flex-wrap my-auto flex-">
         <CommitMessageForm />
       </div>
-      <div class="flex flex-grow text-pink-600">
-        <NuxtLink :to="{ name: 'index' }" class="m-auto">
+      <div class="flex flex-grow text-white">
+        <NuxtLink :to="{ name: 'index' }" class="m-auto" title="Home">
           <FontAwesomeIcon
-            class="h-12 hover:text-gray-50 transition duration-150 ease-in-out"
+            class="h-12 hover:text-black transition duration-150 ease-in-out"
             :icon="['fas', 'home']"
           />
         </NuxtLink>
         <button
           class="m-auto"
+          title="Refresh status"
           @click="fetchStatusAction({ directory: $route.query.directory })"
         >
           <FontAwesomeIcon
-            class="h-12 hover:text-gray-50 transition duration-150 ease-in-out"
+            class="h-12 hover:text-black transition duration-150 ease-in-out"
             :icon="['fas', 'sync']"
           />
         </button>
