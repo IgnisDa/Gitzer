@@ -1,10 +1,21 @@
+"""
+This is the payload of data returned whenever a file is staged (or unstaged)
+"""
 type FileStageChangePayload {
+  " the name of the file that the operation was performed on "
   filename: String!
+  " whether the operation succeeded "
   status: Boolean!
+  " an error message if the operation failed "
   error: String
 }
 
+"""
+This is the payload returned whenever a commit is made
+"""
 type CommitPayload {
+  " whether the commit was made successfully "
   status: Boolean!
+  " an error message if the commit failed "
   error: String
 }
