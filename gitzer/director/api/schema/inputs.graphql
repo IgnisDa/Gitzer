@@ -1,4 +1,9 @@
+"""
+This is the input data that is required to make various operations, like stage, unstage, discard etc.
+"""
 input FileStageChangeInput {
+  " the name of the file that the operation needs to be performed on "
   filename: String!
+  " the directory of the git repository that the operation should be performed on "
   directory: String!
 }
