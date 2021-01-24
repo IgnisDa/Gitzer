@@ -28,7 +28,7 @@ def colored_print(color, message):
 
     if color not in colors:
         raise ValueError(f"The color should be among {list(colors.keys())}")
-    print(colors[color] + message + colors["END"])
+    print(colors[color] + message + colors["END"], flush=True)
 
 
 def expanduser(path):
