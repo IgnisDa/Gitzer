@@ -106,7 +106,6 @@ class Installer:
         script_path = os.path.join(GITZER_PATH, "main.py")
         python = "python3" if sys.version > "3" else "python"
         alias = f"!{python} {script_path}"
-        print(alias)
         command.append(alias)
         subprocess.check_call(command)
 
