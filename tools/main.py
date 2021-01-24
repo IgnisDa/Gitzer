@@ -153,7 +153,7 @@ class Updater:
                 last_updated = datetime.datetime.strptime(
                     last_updated_file.read(), "%Y-%m-%d %H:%M:%S.%f"
                 )
-                ten_days_ago = datetime.timedelta(seconds=10)
+                ten_days_ago = datetime.timedelta(days=10)
                 if datetime.datetime.now() - last_updated > ten_days_ago:
                     return self.prompt_user()
                 else:
