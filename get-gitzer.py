@@ -5,6 +5,7 @@ import os
 import pathlib
 import shutil
 import subprocess
+import sys
 import tarfile
 import tempfile
 from contextlib import closing
@@ -103,7 +104,9 @@ class Installer:
         colored_print("INFO", "Adding associated git alias...")
         command = "git config --global --replace-all alias.gitzer ".split()
         script_path = os.path.join(GITZER_PATH, "main.py")
-        alias = f"!python {script_path}"
+        python = "python3" if sys.version > "3" else "python"
+        alias = f"!{python} {script_path}"
+        print(alias)
         command.append(alias)
         subprocess.check_call(command)
 
