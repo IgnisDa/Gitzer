@@ -225,15 +225,15 @@ def frontend(port):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Start the Gitzer servers")
-    parser.add_argument("-n", "--no-browser", dest="no_browser", action="store_true")
+    argparse.ArgumentParser(description="Start the Gitzer servers")
+    # parser.add_argument("-n", "--no-browser", dest="no_browser", action="store_true")
     update = Updater()
     if update.check_last_updated():
         installer = Installer()
         installer.install()
-    args = parser.parse_args()
-    if args.no_browser:
-        print("ok")
+    # args = parser.parse_args()
+    # if args.no_browser:
+    #     print("ok")
     backend_port = 8534
     frontend_port = 8533
     p1 = multiprocessing.Process(target=backend, args=(backend_port,))
