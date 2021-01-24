@@ -102,7 +102,7 @@ class Installer:
     def set_git_alias(self):
         colored_print("INFO", "Adding associated git alias...")
         command = "git config --global --replace-all alias.gitzer ".split()
-        script_path = os.path.join(GITZER_PATH, "simple-server.py")
+        script_path = os.path.join(GITZER_PATH, "main.py")
         alias = f"!python {script_path}"
         command.append(alias)
         subprocess.check_call(command)
