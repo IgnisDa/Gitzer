@@ -43,6 +43,8 @@ GITZER_PATH = pathlib.Path(HOME) / ".gitzer"
 GITZER_RELEASES_API = "https://api.github.com/repos/IgnisDa/Gitzer/releases/latest"
 LAST_UPDATED_FILENAME = "LAST_UPDATED"
 VERSION_FILE = "VERSION"
+GITZER_BACKEND_HOST = os.environ.get("GITZER_BACKEND_HOST", "127.0.0.1")
+GITZER_FRONTEND_HOST = os.environ.get("GITZER_FRONTEND_HOST", "")
 
 
 def colored_print(color, message):
@@ -201,8 +203,9 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 
 def backend(port):
+
     options = {
-        "bind": "%s:%s" % ("127.0.0.1", port),
+        "bind": "%s:%s" % (GITZER_BACKEND_HOST, port),
         "workers": 1,
         "capture_output": True,
         "accesslog": str(GITZER_PATH / "gunicorn.log"),
@@ -214,7 +217,7 @@ def backend(port):
 def frontend(port):
     client_address = ("127.0.0.1:", str(port))
     gitzer_url = "http://" + "".join(client_address) + "/"
-    with TCPServer(("", port), Handler) as httpd:
+    with TCPServer((GITZER_FRONTEND_HOST, port), Handler) as httpd:
         print("Access Gitzer at:", gitzer_url)
         webbrowser.open("http://127.0.0.1:8533/")
         httpd.serve_forever()
