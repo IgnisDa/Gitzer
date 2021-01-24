@@ -42,6 +42,7 @@ HOME = pathlib.Path(expanduser("~/"))
 GITZER_PATH = pathlib.Path(HOME) / ".gitzer"
 GITZER_RELEASES_API = "https://api.github.com/repos/IgnisDa/Gitzer/releases/latest"
 LAST_UPDATED_FILENAME = "LAST_UPDATED"
+VERSION_FILE = "VERSION"
 
 
 def colored_print(color, message):
@@ -160,7 +161,15 @@ class Updater:
 
     def prompt_user(self):
         prompt = input("Would you like to check for an update [y/n]? ")
-        return prompt.lower() in ["y", "yes"]
+        if prompt.lower() in ["y", "yes"]:
+            with open(GITZER_PATH / VERSION_FILE) as version_file:
+                version = version_file.read().strip()
+                request = Request(GITZER_RELEASES_API, headers={"User-Agent": "Gitzer"})
+
+                with closing(urlopen(request)) as response:
+                    data = json.loads(response.read())
+                tag_name = data["tag_name"].lstrip("v")
+                return version.replace(".", "") > tag_name.replace(".", "")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
