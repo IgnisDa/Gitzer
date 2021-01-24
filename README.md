@@ -4,6 +4,8 @@ Gitzer is a web based client for simple git operations. It allows you to stage,
 unstage and commit your git changes. It uses the conventional commit
 [specification](https://www.conventionalcommits.org/en/v1.0.0/) for its commit template.
 
+![gitzer example](./assets/example-gitzer.png)
+
 ## Summary
 
 - [Gitzer](#gitzer)
