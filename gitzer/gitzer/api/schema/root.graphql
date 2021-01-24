@@ -1,16 +1,33 @@
+"""
+The root query definition
+"""
 type Query {
+  " To check the output of `git status` in the `directory` specified "
   status(directory: String!): Status!
+  " To check if the `directory` specified exists "
   existence(directory: String!): Existence!
+  " To return the present working directory from which the gitzer service was launched "
   presentWorkingDirectory: String!
 }
 
+"""
+The root mutation definition
+"""
 type Mutation {
+  " stage the file that is provided in `data` "
   stageFile(data: FileStageChangeInput!): FileStageChangePayload!
+  " unstage the file that is provided in `data` "
   unstageFile(data: FileStageChangeInput!): FileStageChangePayload!
+  " discard the file that is provided in `data` "
   discardFileChange(data: FileStageChangeInput!): FileStageChangePayload!
+  " make a commit in the specified `directory` with the given `message` "
   performCommit(message: String!, directory: String!): CommitPayload!
+  " stage all the untracked files in the specified `directory` "
   stageAllUntrackedFiles(directory: String!): CommitPayload!
+  " stage all the modified files in the specified `directory` "
   stageAllModifiedFiles(directory: String!): CommitPayload!
+  " discard changes in all the modified files in the specified `directory` "
   discardAllModifiedFiles(directory: String!): CommitPayload!
+  " unstage all files in the specified `directory` "
   unstageAllStagedFiles(directory: String!): CommitPayload!
 }
