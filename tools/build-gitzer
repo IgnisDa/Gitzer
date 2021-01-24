@@ -23,6 +23,7 @@ source _vendor/bin/activate
 pip3 install -r requirements.txt
 cd ~/Gitzer
 cp "tools/main.py" "build/main.py"
+cp "VERSION" "build/VERSION"
 
 version=$(<VERSION)
 tar cvfz "gitzer-$version.tar.gz" build/
