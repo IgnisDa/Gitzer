@@ -1,14 +1,29 @@
+"""
+This type is returned when the status of a directory is queried
+"""
 type Status {
+  " a list of all the untracked `file`s in a directory "
   untrackedFiles: [file]
+  " a list of all the modified `file`s in a directory "
   modifiedFiles: [file]
+  " a list of all the staged `file`s in a directory "
   stagedFiles: [file]
 }
 
+"""
+This type is returned when the existence of a directory is queried
+"""
 type Existence {
+  " whether the specified directory is a git repository or not "
   exists: Boolean!
+  " a message that is displayed to the user on the basis of directory they specify "
   message: String!
 }
 
+"""
+This type represents a file tracked by git in the specified directory
+"""
 type file {
+  " the name of the file, mostly relative to the specified directory "
   name: String!
 }
