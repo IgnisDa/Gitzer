@@ -2,7 +2,7 @@ module.exports = {
   title: "Gitzer Documentation",
   tagline: "The tagline of my site",
   url: "https://IgnisDa.github.io",
-  baseUrl: "/Gitzer/",
+  baseUrl: "/gitzer/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
@@ -11,10 +11,9 @@ module.exports = {
   themeConfig: {
     defaultMode: "dark",
     navbar: {
-      title: "Gitzer",
       logo: {
         alt: "Gitzer Logo",
-        src: "img/logo.svg",
+        src: "img/gitzer-logo.png",
       },
       items: [
         {
