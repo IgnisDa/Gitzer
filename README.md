@@ -19,6 +19,7 @@ unstage and commit your git changes. It uses the conventional commit
   - [Versioning](#versioning)
   - [Authors](#authors)
   - [License](#license)
+  - [Others](#others)
 
 ### Prerequisites
 
@@ -79,3 +80,8 @@ We use [SemVer](http://semver.org/) for versioning.
 This project is licensed under the
 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) - see the
 [LICENSE.md](LICENSE.md) file for details
+
+## Others
+
+Project bootstrapped using [cookiecutter](https://github.com/IgnisDa/project-cookiecutter)
+by IgnisDa.
