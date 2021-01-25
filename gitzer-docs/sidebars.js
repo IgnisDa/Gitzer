@@ -1,6 +1,6 @@
 module.exports = {
-  someSidebar: {
-    Gitzer: ["doc1", "doc2", "doc3"],
-    // Features: ["mdx"],
+  docs: {
+    "Using Gitzer": ["installing", "configuration", "doc3"],
+    Development: ["mdx"],
   },
 };
