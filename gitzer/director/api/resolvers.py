@@ -11,8 +11,13 @@ mutation = MutationType()
 @convert_kwargs_to_snake_case
 def status(*_, directory):
     repo = git.Repo(directory)
-    untracked_files = [{"name": file} for file in repo.untracked_files]
-    modified_files = [{"name": file.a_path} for file in repo.index.diff(None)]
+    untracked_files = [
+        {"name": file, "change_type": "U"} for file in repo.untracked_files
+    ]
+    modified_files = [
+        {"name": file.a_path, "change_type": file.change_type}
+        for file in repo.index.diff(None)
+    ]
     try:
         staged_files = [{"name": file.a_path} for file in repo.index.diff("HEAD")]
     except git.exc.BadName:
