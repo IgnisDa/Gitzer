@@ -3,9 +3,9 @@ This type is returned when the status of a directory is queried
 """
 type Status {
   " a list of all the untracked `file`s in a directory "
-  untrackedFiles: [file]
+  untrackedFiles: [fileChangeType]
   " a list of all the modified `file`s in a directory "
-  modifiedFiles: [file]
+  modifiedFiles: [fileChangeType]
   " a list of all the staged `file`s in a directory "
   stagedFiles: [file]
 }
@@ -26,4 +26,14 @@ This type represents a file tracked by git in the specified directory
 type file {
   " the name of the file, mostly relative to the specified directory "
   name: String!
+}
+
+"""
+This type represents a file tracked by git in the specified directory, with the tracking status included
+"""
+type fileChangeType {
+  " the name of the file, mostly relative to the specified directory "
+  name: String!
+  " the type of change, can be among 'A', 'D', 'R', 'U' "
+  changeType: String!
 }

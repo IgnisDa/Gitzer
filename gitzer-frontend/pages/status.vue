@@ -36,12 +36,20 @@
                     class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
                     :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                   >
-                    <div class="font-mono justify-items-center">
-                      <div class="text-white">
-                        {{ file.name | getFilename }}
+                    <div class="flex justify-between items-center">
+                      <div
+                        class="mr-2 font-extrabold text-green-500"
+                        title="Change type: Untracked"
+                      >
+                        {{ file.changeType }}
                       </div>
-                      <div class="ml-2 text-sm text-gray-300">
-                        {{ file.name | getFileRoot }}
+                      <div class="font-mono justify-items-center ml-2">
+                        <div class="text-white">
+                          {{ file.name | getFilename }}
+                        </div>
+                        <div class="ml-2 text-sm text-gray-300">
+                          {{ file.name | getFileRoot }}
+                        </div>
                       </div>
                     </div>
                     <div class="flex items-center">
@@ -116,12 +124,21 @@
                     class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
                     :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                   >
-                    <div class="font-mono justify-items-center">
-                      <div class="text-white">
-                        {{ file.name | getFilename }}
+                    <div class="flex justify-between items-center">
+                      <div
+                        class="mr-2 font-extrabold"
+                        :class="changeTypeColor(file.changeType)"
+                        :title="changeTypeTitle(file.changeType)"
+                      >
+                        {{ file.changeType }}
                       </div>
-                      <div class="ml-2 text-sm text-gray-300">
-                        {{ file.name | getFileRoot }}
+                      <div class="font-mono justify-items-center ml-2">
+                        <div class="text-white">
+                          {{ file.name | getFilename }}
+                        </div>
+                        <div class="ml-2 text-sm text-gray-300">
+                          {{ file.name | getFileRoot }}
+                        </div>
                       </div>
                     </div>
                     <div class="flex items-center">
@@ -299,6 +316,20 @@ export default {
       discardAllModifiedFilesAction: 'repository/discardAllModifiedFiles',
       unstageAllStagedFilesAction: 'repository/unstageAllStagedFiles',
     }),
+    changeTypeTitle(changeType) {
+      if (changeType === 'D') {
+        return 'Change type: Deleted'
+      } else {
+        return 'Change type: Modified'
+      }
+    },
+    changeTypeColor(changeType) {
+      if (changeType === 'D') {
+        return 'text-pink-600'
+      } else {
+        return 'text-blue-400'
+      }
+    },
   },
 }
 </script>
