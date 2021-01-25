@@ -1,5 +1,4 @@
 import os
-import pathlib
 
 import git
 from ariadne import MutationType, QueryType, convert_kwargs_to_snake_case
@@ -55,7 +54,19 @@ def stage_file(*_, data):
     directory = data.get("directory")
     repo = git.Repo(directory)
     path = os.path.join(directory, filename)
-    repo.index.add(path)
+    file_changed = False
+    for diff_added in repo.index.diff(None).iter_change_type("D"):
+        """This has to be done because git doesn't track renaming of files
+        inherently, so we check if the `filename` in question is a deleted one,
+        and if it is, we remove it from the git index. The renamed file will show
+        up as an untracked file, but we don't worry about it because as soon as it
+        is added to the index, git will automatically detect it as a renamed file
+        and adjust accordingly."""
+        if str(diff_added.a_path) == str(filename):
+            file_changed = True
+            repo.index.remove(path)
+    if not file_changed:
+        repo.index.add(path)
     return {"filename": filename, "status": True}
 
 
