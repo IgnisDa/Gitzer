@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/home/vagrant/Gitzer"
   # VirtualBox is the default provider, and we specify some specific settings here
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "2048"
+    vb.memory = "3072"
     vb.cpus = "2"
   end
   # This script sets up python3, npm, yarn, postgresql etc.
