@@ -17,12 +17,6 @@ module.exports = {
       },
       items: [
         {
-          to: "/",
-          activeBasePath: "/",
-          label: "Docs",
-          position: "left",
-        },
-        {
           href: "https://github.com/IgnisDa/Gitzer",
           label: "GitHub",
           position: "right",
