@@ -6,8 +6,8 @@ module.exports = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "IgnisDa", // Usually your GitHub org/user name.
-  projectName: "Gitzer", // Usually your repo name.
+  organizationName: "IgnisDa",
+  projectName: "Gitzer",
   themeConfig: {
     navbar: {
       title: "Gitzer",
@@ -17,12 +17,11 @@ module.exports = {
       },
       items: [
         {
-          to: "docs/",
-          activeBasePath: "docs",
+          to: "/",
+          activeBasePath: "/",
           label: "Docs",
           position: "left",
         },
-        { to: "blog", label: "Blog", position: "left" },
         {
           href: "https://github.com/IgnisDa/Gitzer",
           label: "GitHub",
@@ -87,13 +86,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
+          routeBasePath: "/",
           editUrl: "https://github.com/IgnisDa/Gitzer/edit/main/gitzer-docs/",
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/blog/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
