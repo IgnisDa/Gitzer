@@ -2,7 +2,7 @@ module.exports = {
   title: "Gitzer Documentation",
   tagline: "The tagline of my site",
   url: "https://IgnisDa.github.io",
-  baseUrl: "/gitzer/",
+  baseUrl: "/Gitzer/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
