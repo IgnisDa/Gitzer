@@ -34,6 +34,16 @@ vagrant up
 
 Typically, provisioning can take anywhere from 10 to 15 minutes.
 
+:::info
+
+You will have to create a file `gitzer-frontend/.env` with the following contents:
+
+```bash
+VUE_APP_BACKEND_URL=http://0.0.0.0:8000/graphql/
+```
+
+:::
+
 ## Verification
 
 If all went well, you should have a functioning development environment now. To verify,
@@ -50,7 +60,7 @@ Open up your browser and visit `http://127.0.0.1:8000/` to access the backend de
 server powered by Django. Visit `http://127.0.0.1:3000/` to access the frontend development
 server powered by NuxtJs.
 
-:::tip
+:::info
 
 The `run-dev` script doesn't start up the documentation development server by default.
 To launch that, run the following commands:
