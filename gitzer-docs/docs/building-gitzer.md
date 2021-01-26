@@ -8,10 +8,19 @@ title: Building Gitzer
 The source repository has a [script](https://github.com/IgnisDa/Gitzer/blob/main/tools/build-gitzer)
 which is used to build the tar file that is posted on the
 [releases page](https://github.com/IgnisDa/Gitzer/releases). Simply run it in the root of
-the source code to obtain the final tar file.
+the source code to obtain the final tar file. The script assumes that the gitzer source
+directory is in `~/Gitzer` (which it should be if you are using the Vagrant method of
+development).
 
 ```bash
 ./tools/build-gitzer
+```
+
+If your source directory is somewhere else, you can use the `GITZER_SOURCE` environment
+variable to specify it.
+
+```bash
+GITZER_SOURCE='~/path/to/Gitzer' ./tools/build-gitzer
 ```
 
 ## Naming convention
