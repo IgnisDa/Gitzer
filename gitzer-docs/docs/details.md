@@ -20,7 +20,7 @@ and these dependencies are vendorized along with the release itself. All these d
 can be found in `~/.gitzer/_vendor/` directory.
 
 When the user runs `git gitzer`, the command executed is `python3 /home/vagrant/.gitzer/main.py`.
-The dependencies have to be added to `$PATH` manually since there is no easy way to
+The dependencies have to be added to `PYTHONPATH` manually since there is no easy way to
 activate a virtual environment using python. This is done by
 [modifying](https://github.com/IgnisDa/Gitzer/blob/main/tools/main.py#L24) the `sys.path`
 variable.
