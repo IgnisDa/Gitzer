@@ -16,13 +16,6 @@ development).
 ./tools/build-gitzer
 ```
 
-If your source directory is somewhere else, you can use the `GITZER_SOURCE` environment
-variable to specify it.
-
-```bash
-GITZER_SOURCE='~/path/to/Gitzer' ./tools/build-gitzer
-```
-
 ## Naming convention
 
 The final output of the above command will be `gitzer-${version}.tar.gz` where the value of
