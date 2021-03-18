@@ -122,7 +122,7 @@ class Installer:
     def unset_git_alias(self):
         colored_print("WARNING", "Removing associated git alias...")
         command = "git config --global --unset-all alias.gitzer"
-        subprocess.check_call(command.split())
+        subprocess.call(command.split())
 
 
 parser = argparse.ArgumentParser(description="The installer for the Gitzer tool")
