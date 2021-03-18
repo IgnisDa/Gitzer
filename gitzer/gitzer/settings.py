@@ -1,5 +1,4 @@
 import os
-import tempfile
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -139,7 +138,7 @@ def expanduser(path):
 
 
 HOME = Path(expanduser("~/"))
-GITZER_PATH = Path(HOME) / ".gitzer"
+GITZER_PATH = Path(Path(HOME) / ".gitzer")
 # logging
 LOGGING = {
     "version": 1,
@@ -148,7 +147,7 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": Path(GITZER_PATH / "gitzer.out.log"),
+            "filename": (GITZER_PATH / "gitzer.out.log"),
         },
     },
     "loggers": {
@@ -159,3 +158,4 @@ LOGGING = {
         },
     },
 }
+GITZER_LOGGING_FILE = Path(GITZER_PATH / "request.log")
