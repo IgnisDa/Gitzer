@@ -6,7 +6,7 @@ backend_folder="gitzer"
 # directory path of nuxt development server
 frontend_folder="gitzer-frontend"
 # directory path of documentation development server
-documentation_folder="gitzer-docs/website"
+documentation_folder="gitzer-docs"
 
 
 # change to the project folder
@@ -23,5 +23,8 @@ cd "$documentation_folder" && yarn
 cd "/home/vagrant/Gitzer"
 # install the dependencies for the django application
 cd "$backend_folder"
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py | python3 -
+source $HOME/.poetry/env
 poetry config virtualenvs.in-project "true"
 poetry install

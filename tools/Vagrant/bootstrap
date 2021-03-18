@@ -111,7 +111,6 @@ coloredEcho "yellow" "Database creation complete!"
 date > "$PROVISIONED_ON"
 
 coloredEcho "cyan" "Installing global python packages"
-pip3 install poetry
 
 print_db_usage
 echo ""

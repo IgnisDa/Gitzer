@@ -8,3 +8,6 @@ echo -e "export DJANGO_DATABASE_PASSWORD=\"admin-password\"" >> /etc/profile.d/e
 echo -e "export DJANGO_DATABASE_HOST=\"localhost\"" >> /etc/profile.d/env-vars.sh
 echo -e "export PYTHONDONTWRITEBYTECODE=\"1\"" >> /etc/profile.d/env-vars.sh
 echo -e "export PYTHONUNBUFFERED=\"1\"" >> /etc/profile.d/env-vars.sh
+echo -e "export GITZER_DONT_START_BROWSER=\"1\"" >> /etc/profile.d/env-vars.sh
+echo -e "export GITZER_BACKEND_HOST=\"0.0.0.0\"" >> /etc/profile.d/env-vars.sh
+echo -e "export GITZER_FRONTEND_HOST=\"0.0.0.0\"" >> /etc/profile.d/env-vars.sh
