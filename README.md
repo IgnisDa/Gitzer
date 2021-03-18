@@ -12,6 +12,7 @@ unstage and commit your git changes. It uses the conventional commit
   - [Summary](#summary)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
+    - [Updating](#updating)
     - [Uninstalling](#uninstalling)
   - [Using](#using)
   - [Built With](#built-with)
@@ -34,6 +35,15 @@ way of installing Gitzer.
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py | python
+```
+
+### Updating
+
+Once installed, you can update to the latest version using the following command. It checks
+for updates and updates your gitzer installation if a newer version is found.
+
+```bash
+git gitzer --update
 ```
 
 ### Uninstalling
