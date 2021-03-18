@@ -1,26 +1,19 @@
 import argparse
-import datetime
 import http.server
-import json
 import multiprocessing
 import os
 import pathlib
-import shutil
 import socketserver
-import subprocess
 import sys
-import tarfile
 import tempfile
 import webbrowser
-from contextlib import closing
+from pathlib import Path
 
 try:
     from urllib.error import HTTPError
-    from urllib.request import Request, urlopen
+    from urllib.request import urlopen
 except ImportError:
-    from urllib2 import HTTPError, Request, urlopen
-
-
+    from urllib2 import HTTPError, urlopen
 sys.path.insert(
     0,
     str(
@@ -45,6 +38,7 @@ LAST_UPDATED_FILENAME = "LAST_UPDATED"
 VERSION_FILE = "VERSION"
 GITZER_BACKEND_HOST = os.environ.get("GITZER_BACKEND_HOST", "127.0.0.1")
 GITZER_FRONTEND_HOST = os.environ.get("GITZER_FRONTEND_HOST", "")
+UPDATER_URL = "https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py"
 
 
 def colored_print(color, message):
@@ -59,119 +53,6 @@ def colored_print(color, message):
     if color not in colors:
         raise ValueError(f"The color should be among {list(colors.keys())}")
     print(colors[color] + message + colors["END"])
-
-
-class Installer:
-    """ The installer class that installs Gitzer on the machine """
-
-    def get_download_url(self):
-        request = Request(GITZER_RELEASES_API, headers={"User-Agent": "Gitzer"})
-
-        with closing(urlopen(request)) as response:
-            data = json.loads(response.read())
-        tag_name = data["tag_name"].lstrip("v")
-        gzip_name = "gitzer-{}.tar.gz".format(tag_name)
-        assets = data["assets"]
-        for asset in assets:
-            if asset["name"] == gzip_name:
-                return asset["browser_download_url"], gzip_name
-
-    def download_release(self):
-        gzip_url, gzip_name = self.get_download_url()
-        try:
-            r = urlopen(gzip_url)
-        except HTTPError as e:
-            if e.code == 404:
-                raise RuntimeError("Could not find {} file".format(gzip_name))
-
-        meta = r.info()
-        size = int(meta["Content-Length"])
-        colored_print(
-            "INFO",
-            "  - Downloading {} ({:.2f} MB)".format(gzip_name, size / 1024 / 1024),
-        )
-
-        with self.gitzer_temp_directory() as dir_:
-            tar = os.path.join(dir_, gzip_name)
-            with open(tar, "wb") as f:
-                block_size = 8192
-                current = 0
-                while True:
-                    buffer = r.read(block_size)
-                    if not buffer:
-                        break
-                    current += len(buffer)
-                    f.write(buffer)
-            return tar
-
-    def install(self):
-        colored_print("INFO", "Installing Gitzer...")
-        self.uninstall()
-        gitzer_tar = self.download_release()
-        with tarfile.open(gitzer_tar, "r:gz") as tar_file:
-            temporary_dir = self.gitzer_temp_directory()
-            tar_file.extractall(temporary_dir)
-            shutil.move(temporary_dir / "build", GITZER_PATH)
-        self.set_git_alias()
-        colored_print("SUCCESS", "Gitzer was installed on your system successfully!")
-
-    def gitzer_temp_directory(self):
-        return pathlib.Path(tempfile.mkdtemp())
-
-    def set_git_alias(self):
-        colored_print("INFO", "Adding associated git alias...")
-        command = "git config --global --replace-all alias.gitzer ".split()
-        script_path = os.path.join(GITZER_PATH, "main.py")
-        alias = f"!python {script_path}"
-        command.append(alias)
-        subprocess.check_call(command)
-
-    def uninstall(self):
-        colored_print(
-            "WARNING", "Removing Gitzer directories from your system (if found)..."
-        )
-        try:
-            shutil.rmtree(GITZER_PATH)
-            self.unset_git_alias()
-        except FileNotFoundError:
-            pass
-
-    def unset_git_alias(self):
-        colored_print("WARNING", "Removing associated git alias...")
-        command = "git config --global --unset-all alias.gitzer"
-        subprocess.check_call(command.split())
-
-
-class Updater:
-    """Automatically checks for updates every 10 days and prompts user to update
-    if update is available."""
-
-    def check_last_updated(self):
-        if LAST_UPDATED_FILENAME not in os.listdir(GITZER_PATH):
-            with open(GITZER_PATH / LAST_UPDATED_FILENAME, "w") as last_updated_file:
-                last_updated_file.write(str(datetime.datetime.now()))
-        else:
-            with open(GITZER_PATH / LAST_UPDATED_FILENAME) as last_updated_file:
-                last_updated = datetime.datetime.strptime(
-                    last_updated_file.read(), "%Y-%m-%d %H:%M:%S.%f"
-                )
-                ten_days_ago = datetime.timedelta(days=10)
-                if datetime.datetime.now() - last_updated > ten_days_ago:
-                    return self.prompt_user()
-                else:
-                    return False
-
-    def prompt_user(self):
-        prompt = input("Would you like to check for an update [y/n]? ")
-        if prompt.lower() in ["y", "yes"]:
-            with open(GITZER_PATH / VERSION_FILE) as version_file:
-                version = version_file.read().strip()
-                request = Request(GITZER_RELEASES_API, headers={"User-Agent": "Gitzer"})
-
-                with closing(urlopen(request)) as response:
-                    data = json.loads(response.read())
-                tag_name = data["tag_name"].lstrip("v")
-                return version.replace(".", "") > tag_name.replace(".", "")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -225,15 +106,27 @@ def frontend(port):
 
 
 def main():
-    argparse.ArgumentParser(description="Start the Gitzer servers")
-    # parser.add_argument("-n", "--no-browser", dest="no_browser", action="store_true")
-    update = Updater()
-    if update.check_last_updated():
-        installer = Installer()
-        installer.install()
-    # args = parser.parse_args()
-    # if args.no_browser:
-    #     print("ok")
+    parser = argparse.ArgumentParser(description="Start the Gitzer servers")
+    parser.add_argument("-u", "--update", dest="update", action="store_true")
+    args = parser.parse_args()
+    if args.update:
+        try:
+            response = urlopen(UPDATER_URL)
+        except HTTPError as e:
+            if e.code == 404:
+                raise RuntimeError(
+                    "Could not find updater file. "
+                    "Please update manually from https://github.com/IgnisDa/Gitzer"
+                )
+        temp_loc = Path(tempfile.gettempdir()) / "get_gitzer.py"
+        with open(temp_loc, "w") as f:
+            buffer = str(response.read())
+            f.write(buffer)
+        with open(temp_loc) as f:
+            commands = f.read()
+            print(commands)
+            exec(commands, globals())
+        exit()
     backend_port = 8534
     frontend_port = 8533
     p1 = multiprocessing.Process(target=backend, args=(backend_port,))
