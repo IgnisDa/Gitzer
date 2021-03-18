@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # This script will be used to install dependencies for all the Gitzer applications
 
+# setup the git identities
+git config --global user.name "IgnisDa"
+git config --global user.email "ignisda2001@gmail.com"
+
 # directory path of django development server
 backend_folder="gitzer"
 # directory path of nuxt development server
