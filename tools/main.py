@@ -4,16 +4,10 @@ import multiprocessing
 import os
 import pathlib
 import socketserver
+import subprocess
 import sys
-import tempfile
 import webbrowser
-from pathlib import Path
 
-try:
-    from urllib.error import HTTPError
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import HTTPError, urlopen
 sys.path.insert(
     0,
     str(
@@ -111,30 +105,32 @@ def main():
     args = parser.parse_args()
     if args.update:
         try:
-            response = urlopen(UPDATER_URL)
-        except HTTPError as e:
-            if e.code == 404:
-                raise RuntimeError(
-                    "Could not find updater file. "
-                    "Please update manually from https://github.com/IgnisDa/Gitzer"
-                )
-        temp_loc = Path(tempfile.gettempdir()) / "get_gitzer.py"
-        with open(temp_loc, "w") as f:
-            buffer = str(response.read())
-            f.write(buffer)
-        with open(temp_loc) as f:
-            commands = f.read()
-            print(commands)
-            exec(commands, globals())
-        exit()
-    backend_port = 8534
-    frontend_port = 8533
-    p1 = multiprocessing.Process(target=backend, args=(backend_port,))
-    p2 = multiprocessing.Process(target=frontend, args=(frontend_port,))
-    p1.start()
-    p2.start()
-    p1.join()
-    p2.join()
+            python = "python3" if sys.version_info.major == 3 else "python"
+            subprocess.check_call(
+                [
+                    "curl",
+                    "-sSL",
+                    "https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py",  # noqa: E501
+                    "-o",
+                    "/tmp/get-gitzer.py",
+                ]
+            )
+            subprocess.check_call([python, "/tmp/get-gitzer.py"])
+        except Exception:
+            raise RuntimeError(
+                "We encountered some error. "
+                "Please update manually from https://github.com/IgnisDa/Gitzer"
+            )
+
+    else:
+        backend_port = 8534
+        frontend_port = 8533
+        p1 = multiprocessing.Process(target=backend, args=(backend_port,))
+        p2 = multiprocessing.Process(target=frontend, args=(frontend_port,))
+        p1.start()
+        p2.start()
+        p1.join()
+        p2.join()
 
 
 if __name__ == "__main__":
