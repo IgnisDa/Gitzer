@@ -35,11 +35,7 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [
-    // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
-    '@nuxtjs/apollo',
-  ],
+  modules: ['@nuxtjs/apollo'],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
@@ -59,6 +55,9 @@ export default {
   publicRuntimeConfig: {
     backendUrl:
       process.env.VUE_APP_BACKEND_URL || 'http://127.0.0.1:8534/graphql/',
+  },
+  tailwindcss: {
+    jit: true,
   },
   target: 'static',
   apollo: {
