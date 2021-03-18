@@ -125,19 +125,18 @@ class Installer:
         subprocess.check_call(command.split())
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="The installer for the Gitzer tool")
-    parser.add_argument(
-        "-u",
-        "--uninstall",
-        dest="uninstall",
-        action="store_true",
-        help="run get-gitzer.py with this flag to uninstall it from your system",
-    )
-    args = parser.parse_args()
-    uninstall = args.uninstall
-    installer = Installer()
-    if uninstall:
-        installer.uninstall()
-    else:
-        installer.install()
+parser = argparse.ArgumentParser(description="The installer for the Gitzer tool")
+parser.add_argument(
+    "-u",
+    "--uninstall",
+    dest="uninstall",
+    action="store_true",
+    help="run get-gitzer.py with this flag to uninstall it from your system",
+)
+args = parser.parse_args()
+uninstall = args.uninstall
+installer = Installer()
+if uninstall:
+    installer.uninstall()
+else:
+    installer.install()
