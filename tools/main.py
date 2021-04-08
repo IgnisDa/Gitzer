@@ -26,7 +26,8 @@ def expanduser(path):
 
 
 HOME = pathlib.Path(expanduser("~/"))
-GITZER_PATH = pathlib.Path(HOME) / ".gitzer"
+GITZER_HOME = pathlib.Path(HOME) / ".local" / "ignisda-apps"
+GITZER_PATH = pathlib.Path(GITZER_HOME) / ".gitzer"
 GITZER_RELEASES_API = "https://api.github.com/repos/IgnisDa/Gitzer/releases/latest"
 LAST_UPDATED_FILENAME = "LAST_UPDATED"
 VERSION_FILE = "VERSION"
