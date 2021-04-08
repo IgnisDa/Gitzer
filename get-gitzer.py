@@ -142,4 +142,3 @@ if uninstall:
     installer.uninstall()
 else:
     installer.install()
-GITZER
