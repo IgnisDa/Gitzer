@@ -91,6 +91,7 @@ class Installer:
         colored_print("INFO", "Installing Gitzer...")
         self.uninstall()
         gitzer_tar = self.download_release()
+        colored_print("INFO", f"Installing Gitzer to {str(GITZER_PATH)}...")
         with tarfile.open(gitzer_tar, "r:gz") as tar_file:
             temporary_dir = self.gitzer_temp_directory()
             tar_file.extractall(temporary_dir)
