@@ -138,7 +138,7 @@ def expanduser(path):
 
 
 HOME = Path(expanduser("~/"))
-GITZER_PATH = Path(Path(HOME) / ".gitzer")
+GITZER_PATH = Path(Path(HOME) / "gitzer")
 
 # logging
 LOGGING = {
