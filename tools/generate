@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -e
+
+# use `../tools/generate` to run this script from the frontend folder
+
+# since the node_modules folder is a symbolic link, the `yarn generate` doesn't work as
+# expected (problems in resolving require statements correctly), we use this script. It
+# moves the frontend directory to a different location, sets up a correct node_modules and
+# then runs the command there. The generated `dist` folder is copied back to the correct
+# location. This also takes care of caching the node_modules at the build location to make
+# it faster during subsequent runs.
+
+# create the base directory if it does not exist
+BASE_DIR="$HOME/.project-build"
+mkdir -p "$BASE_DIR"
+# save the name of the current working directory
+directory="$(basename $PWD)"
+
+# save the current path
+pwd="$PWD"
+
+# this file will contain the location of the directories of different projects
+PROJECT_LOG_FILE="$BASE_DIR/projects.log"
+# create the file if it does not exist
+if [ ! -f "$PROJECT_LOG_FILE" ]; then
+    touch "$PROJECT_LOG_FILE"
+fi
+
+# check if the project we are trying to build is already in the log file. If it exists
+# there, it means that the current project is cached, and we can leverage that fact.
+if grep -Fq "$pwd" "$PROJECT_LOG_FILE"; then
+    # we have found the directory in cache
+    # the build directory is in this string, we need to extract it
+    echo "Project was found in cache!"
+    IN="$(grep -F "$pwd" "$PROJECT_LOG_FILE")"
+    # we convert that to a bash array and extract the 1 index element, which is the name of
+    # the directory we are interested in
+    arrIN=(${IN//|/ })
+    build_dir="${arrIN[2]}"
+else
+    # the build directory was not found, create a new
+    # random directory to store dependencies of the current project in.
+    # we store the number of lines in the log file
+    echo "Project was not found in cache. Proceeding with dependency build..."
+    lines="$(wc -l < $PROJECT_LOG_FILE)"
+    next_line="$(($lines + 1))"
+    build_dir="$(tr -dc A-Za-z0-9 </dev/urandom | head -c 30 ; echo '')"
+    echo "$next_line|$pwd|$build_dir" >> "$PROJECT_LOG_FILE"
+fi
+
+# create the build directory
+BUILD_BASE="$BASE_DIR/$build_dir"
+mkdir -p $BUILD_BASE
+# we find the number of directories in this directory, increment that, and we will store
+# the current run in this new directory
+current_dirs="$(find "$BUILD_BASE" -mindepth 1 -maxdepth 1 -type d ! -name "node_modules" | wc -l)"
+new_dir_name="$(date +%Y-%m-%d-%T)_generation-$(($current_dirs + 1))"
+BUILD_DIR="$BUILD_BASE/$new_dir_name/"
+mkdir -p "$BUILD_DIR"
+# send the build files to the target location to install dependencies
+cp "./package.json" "$BUILD_BASE/package.json"
+cp "./yarn.lock" "$BUILD_BASE/yarn.lock"
+# copy the directory to a temporary location
+rsync -a --progress --quiet "." "$BUILD_DIR" --exclude "node_modules" --exclude "dist" --exclude ".nuxt"
+cd "$BUILD_BASE"
+# install the project dependencies
+yarn install
+echo "Project will be built in '$BUILD_DIR'"
+cd "$BUILD_DIR"
+rsync -a --recursive --quiet "$BUILD_BASE/node_modules" "$BUILD_DIR/node_modules"
+# generate the production build
+npm run generate
+# delete the target directory if it exists
+rm -rf "$pwd/dist"
+# move the file to the correct location
+rsync -a --progress --quiet "dist/" "$pwd/dist"
