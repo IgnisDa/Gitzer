@@ -39,7 +39,8 @@ def expanduser(path):
 
 
 HOME = pathlib.Path(expanduser("~/"))
-GITZER_PATH = pathlib.Path(HOME) / ".gitzer"
+GITZER_HOME = pathlib.Path(HOME) / ".local" / "ignisda-apps"
+GITZER_PATH = pathlib.Path(GITZER_HOME) / ".gitzer"
 GITZER_RELEASES_API = "https://api.github.com/repos/IgnisDa/Gitzer/releases/latest"
 
 
@@ -93,6 +94,7 @@ class Installer:
         with tarfile.open(gitzer_tar, "r:gz") as tar_file:
             temporary_dir = self.gitzer_temp_directory()
             tar_file.extractall(temporary_dir)
+            os.makedirs(GITZER_HOME, exist_ok=True)
             shutil.move(temporary_dir / "build", GITZER_PATH)
         self.set_git_alias()
         colored_print("SUCCESS", "Gitzer was installed on your system successfully!")
@@ -140,3 +142,4 @@ if uninstall:
     installer.uninstall()
 else:
     installer.install()
+GITZER
