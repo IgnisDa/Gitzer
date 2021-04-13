@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 
-GITZER_SOURCE=$(pwd)
+GITZER_SOURCE="$(pwd)"
 
-backend_folder="gitzer"
-frontend_folder="gitzer-frontend"
+backend_folder="$GITZER_SOURCE/gitzer"
+frontend_folder="$GITZER_SOURCE/gitzer-frontend"
 rm -rf "build/"
 mkdir "build/"
 cd "$GITZER_SOURCE"
-cd "$frontend_folder" && secrets=$(<.env) && rm .env
+cd "$frontend_folder"
+frontend_cache="$(realpath node_modules)"
+frontend_cache="$(dirname $frontend_cache)"
+rsync -a --progress "$frontend_folder/" "$frontend_cache" --exclude "node_modules" \
+    --exclude "dist"
+cd "$frontend_cache"
 yarn && yarn generate
-echo $secrets > .env
 cd "$GITZER_SOURCE"
 rsync -a --progress "$frontend_folder/dist/" "build/"
 
