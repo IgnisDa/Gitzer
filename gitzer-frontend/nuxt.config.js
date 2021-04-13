@@ -56,9 +56,6 @@ export default {
     backendUrl:
       process.env.VUE_APP_BACKEND_URL || 'http://127.0.0.1:8534/graphql/',
   },
-  tailwindcss: {
-    jit: true,
-  },
   target: 'static',
   apollo: {
     clientConfigs: {
