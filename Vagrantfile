@@ -19,6 +19,15 @@ Vagrant.configure("2") do |config|
     vb.memory = "2048"
     vb.cpus = "2"
   end
+  # set the API key for the wakatime plugin if it exists in the system
+  wakatime_file = File.join(ENV['HOME'],".wakatime.cfg")
+  if File.file?(wakatime_file)
+    file_data = File.read(wakatime_file)
+    $script = <<-SCRIPT
+      echo -e "#{file_data}" >> $HOME/.wakatime.cfg
+    SCRIPT
+    config.vm.provision "shell", inline: $script, privileged: false
+  end
   # This script sets up python3, npm, yarn, postgresql etc.
   config.vm.provision :shell, :path => "tools/Vagrant/bootstrap"
   # This script installs each specific application's dependencies
