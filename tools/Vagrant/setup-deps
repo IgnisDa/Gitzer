@@ -14,16 +14,17 @@ documentation_folder="gitzer-docs"
 
 # remove the default fish shell prompt
 set fish_greeting
-# use the starship prompt
-curl -fsSL https://starship.rs/install.sh > /tmp/install.sh
-chmod +x /tmp/install.sh
-/tmp/install.sh --force
 
 # replace the default file content viewer (cat) with bat
 sudo ln -s /usr/bin/batcat /usr/bin/bat
 # load all my system configs
 rm -rf $HOME/.config
 git clone https://github.com/IgnisDa/linux-configs.git $HOME/.config
+
+# use the starship prompt
+curl -fsSL https://starship.rs/install.sh > /tmp/install.sh
+chmod +x /tmp/install.sh
+/tmp/install.sh --force
 
 # load the custom scripts and make only files which contain `~ADD_SCRIPT~` in them
 # executable
@@ -55,7 +56,6 @@ eval "$CUSTOM_SCRIPTS_DIR/setup"
 cd "/home/vagrant/Gitzer"
 # install the dependencies for the django application
 cd "$backend_folder"
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py | python3 -
 source $HOME/.poetry/env
 poetry config virtualenvs.in-project "true"

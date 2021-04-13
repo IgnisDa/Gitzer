@@ -71,7 +71,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.lis
 apt-get update
 
 # Install postgresql, python3.9 and fish shell (required for development)
-apt-get -y install "yarn" "postgresql-$PG_VERSION" "python3-venv" "postgresql-contrib-$PG_VERSION" "fish" "python3" "python3-pip" "nodejs" "gcc" "g++" "make"
+apt-get -y install "yarn" "exa" "neovim" "postgresql-$PG_VERSION" "python3-venv" "postgresql-contrib-$PG_VERSION" "fish" "python3" "python3-pip" "nodejs" "gcc" "g++" "make"
 
 coloredEcho "yellow" "Environment packages installed successfully!"
 
@@ -109,8 +109,11 @@ coloredEcho "yellow" "Database creation complete!"
 
 # Tag the provision time:
 date > "$PROVISIONED_ON"
-
+pip install poetry
 coloredEcho "cyan" "Installing global python packages"
+
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
 
 print_db_usage
 echo ""
