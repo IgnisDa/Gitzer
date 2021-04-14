@@ -6,6 +6,7 @@ import pathlib
 import socketserver
 import subprocess
 import sys
+import tempfile
 import webbrowser
 
 sys.path.insert(
@@ -106,6 +107,7 @@ def main():
     args = parser.parse_args()
     if args.update:
         try:
+            script = pathlib.Path(tempfile.gettempdir()) / "get-gitzer.py"
             python = "python3" if sys.version_info.major == 3 else "python"
             subprocess.check_call(
                 [
@@ -113,10 +115,10 @@ def main():
                     "-sSL",
                     "https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py",  # noqa: E501
                     "-o",
-                    "/tmp/get-gitzer.py",
+                    str(script.resolve()),
                 ]
             )
-            subprocess.check_call([python, "/tmp/get-gitzer.py"])
+            subprocess.check_call([python, str(script.resolve())])
         except Exception:
             raise RuntimeError(
                 "We encountered some error. "
