@@ -7572,6 +7572,11 @@ iferr@^0.1.5:
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
 
+ignisnents@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ignisnents/-/ignisnents-1.2.0.tgz#bcd8184dc5668d9de58db116cfb30ab910767b6d"
+  integrity sha512-+jrljbhHDDAMsLiVHE1Br+36qcz/rg9nqgJ46ShIkMzrWuXyxrGxiCP6IUznt37j32ck+MLGhHld9XZRQMoXGw==
+
 ignore-by-default@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ignore-by-default/-/ignore-by-default-1.0.1.tgz#48ca6d72f6c6a3af00a9ad4ae6876be3889e2b09"
