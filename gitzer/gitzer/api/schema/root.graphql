@@ -30,4 +30,6 @@ type Mutation {
   discardAllModifiedFiles(directory: String!): CommitPayload!
   " unstage all files in the specified `directory` "
   unstageAllStagedFiles(directory: String!): CommitPayload!
+  " push the current branch to upstream named `origin` "
+  pushToOrigin(directory: String!): Boolean!
 }
