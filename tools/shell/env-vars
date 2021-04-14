@@ -12,3 +12,6 @@ echo -e "export PYTHONUNBUFFERED=\"1\"" >> /etc/profile.d/env-vars.sh
 echo -e "export GITZER_DONT_START_BROWSER=\"1\"" >> /etc/profile.d/env-vars.sh
 echo -e "export GITZER_BACKEND_HOST=\"0.0.0.0\"" >> /etc/profile.d/env-vars.sh
 echo -e "export GITZER_FRONTEND_HOST=\"0.0.0.0\"" >> /etc/profile.d/env-vars.sh
+
+# add a directory to the $PATH which hold all custom scripts
+echo -e "export PATH=\"$PATH:/home/vagrant/custom-scripts/\"" >> /etc/profile.d/env-vars.sh
