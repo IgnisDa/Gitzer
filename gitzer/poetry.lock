@@ -340,14 +340,6 @@ MarkupSafe = ">=0.23"
 i18n = ["Babel (>=0.8)"]
 
 [[package]]
-name = "lizard"
-version = "1.17.7"
-description = "A code analyzer without caring the C/C++ header files. It works with Java, C/C++, JavaScript, Python, Ruby, Swift, Objective C. Metrics includes cyclomatic complexity number etc."
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "markupsafe"
 version = "1.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -435,19 +427,6 @@ description = "C parser in Python"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
-name = "pydriller"
-version = "1.15.5"
-description = "Framework for MSR"
-category = "main"
-optional = false
-python-versions = ">=3.5"
-
-[package.dependencies]
-gitpython = "*"
-lizard = "*"
-pytz = "*"
 
 [[package]]
 name = "pyflakes"
@@ -730,7 +709,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "6720b05fca91ebe616d57ba7b653dc56dab071dd76b3ff2d3e32d94bdd8c02e5"
+content-hash = "8e3ff429ea4bf1eee5377156c52e2c623d02c636e146af5ab90fd30478341106"
 
 [metadata.files]
 appdirs = [
@@ -948,10 +927,6 @@ jinja2 = [
     {file = "Jinja2-2.11.3-py2.py3-none-any.whl", hash = "sha256:03e47ad063331dd6a3f04a43eddca8a966a26ba0c5b7207a9a9e4e08f1b29419"},
     {file = "Jinja2-2.11.3.tar.gz", hash = "sha256:a6d58433de0ae800347cab1fa3043cebbabe8baa9d29e668f1c768cb87a333c6"},
 ]
-lizard = [
-    {file = "lizard-1.17.7-py2.py3-none-any.whl", hash = "sha256:09df01b1b1a740afb94334e020f31333f57548e02340a619476b63eafbfb2251"},
-    {file = "lizard-1.17.7.tar.gz", hash = "sha256:d08e7afb4534fc326401ede2d5aace027757fb1a9deb3cc9f8e7f4339983c630"},
-]
 markupsafe = [
     {file = "MarkupSafe-1.1.1-cp27-cp27m-macosx_10_6_intel.whl", hash = "sha256:09027a7803a62ca78792ad89403b1b7a73a01c8cb65909cd876f7fcebd79b161"},
     {file = "MarkupSafe-1.1.1-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:e249096428b3ae81b08327a63a485ad0878de3fb939049038579ac0ef61e17e7"},
@@ -1041,9 +1016,6 @@ pycodestyle = [
 pycparser = [
     {file = "pycparser-2.20-py2.py3-none-any.whl", hash = "sha256:7582ad22678f0fcd81102833f60ef8d0e57288b6b5fb00323d101be910e35705"},
     {file = "pycparser-2.20.tar.gz", hash = "sha256:2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0"},
-]
-pydriller = [
-    {file = "PyDriller-1.15.5-py3-none-any.whl", hash = "sha256:acbfb400fac97fd4dfba2faa6b4fe34a393aff43e516f8119471e2ac07da2020"},
 ]
 pyflakes = [
     {file = "pyflakes-2.3.1-py2.py3-none-any.whl", hash = "sha256:7893783d01b8a89811dd72d7dfd4d84ff098e5eed95cfa8905b22bbffe52efc3"},
