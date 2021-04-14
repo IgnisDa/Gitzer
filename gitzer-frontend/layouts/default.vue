@@ -1,9 +1,10 @@
 <template>
   <div
-    class="flex max-w-full antialiased"
+    class="flex max-w-full antialiased h-screen"
     :class="mode !== 'production' ? 'debug-screens' : ''"
   >
-    <Nuxt />
+    <alert></alert>
+    <Nuxt keep-alive />
   </div>
 </template>
 
