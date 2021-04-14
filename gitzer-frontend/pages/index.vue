@@ -5,7 +5,7 @@
         <div class="my-auto max-w-4xl shadow-lg p-3 border border-gray-800">
           <div
             class="text-6xl md:text-9xl font-semibold transition duration-500 ease-in"
-            :class="existence.exists ? 'text-successful' : 'text-unsuccessful'"
+            :class="existence.exists ? 'text-green-400' : 'text-red-500'"
           >
             Gitzer.
           </div>
@@ -13,7 +13,7 @@
             <div class="w-full">
               <form
                 class="flex flex-wrap items-center w-full relative"
-                @submit.prevent="checkRepository()"
+                @submit.prevent="submitForm()"
               >
                 <input
                   ref="directory"
@@ -82,12 +82,23 @@ export default {
   },
   watch: {
     directory() {
-      this.checkRepository()
+      this.$apollo
+        .query({
+          query: existenceQuery,
+          variables: {
+            directory: this.directory,
+          },
+        })
+        .then((data) => {
+          this.existence = data.data.existence
+        })
+        .catch((error) => {
+          this.existence = error
+        })
     },
   },
   mounted() {
     this.presentWorkingDirectory()
-    this.checkRepository()
     this.focusInput()
   },
   methods: {
@@ -106,30 +117,14 @@ export default {
           this.existence = error
         })
     },
-    async checkRepository() {
-      await this.$apollo
-        .query({
-          query: existenceQuery,
-          variables: {
-            directory: this.directory,
-          },
+    submitForm() {
+      if (this.existence) {
+        this.$router.push({
+          name: 'status',
+          query: { directory: this.directory },
         })
-        .then((data) => {
-          this.existence = data.data.existence
-        })
-        .catch((error) => {
-          this.existence = error
-        })
+      }
     },
   },
 }
 </script>
-
-<style>
-.text-successful {
-  @apply text-green-400;
-}
-.text-unsuccessful {
-  @apply text-red-500;
-}
-</style>
