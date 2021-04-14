@@ -8,6 +8,8 @@ type Status {
   modifiedFiles: [fileChangeType]
   " a list of all the staged `file`s in a directory "
   stagedFiles: [file]
+  " the branch that the repo index is currently pointing to "
+  branch: String!
 }
 
 """

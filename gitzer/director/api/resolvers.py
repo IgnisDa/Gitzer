@@ -26,6 +26,7 @@ def status(*_, directory):
         "untracked_files": untracked_files,
         "modified_files": modified_files,
         "staged_files": staged_files,
+        "branch": repo.active_branch,
     }
 
 
@@ -169,3 +170,15 @@ def unstage_all_staged_files(*_, directory):
             status = False
             error = "There was a problem resolving your request"
     return {"status": status, "error": error}
+
+
+@mutation.field("pushToOrigin")
+def push_to_origin(*_, directory):
+    """ This will push to an upsteam called `origin` """
+    repo = git.Repo(directory)
+    try:
+        origin = repo.remote("origin")
+        origin.push()
+        return True
+    except ValueError:
+        return False
