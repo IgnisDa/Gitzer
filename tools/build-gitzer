@@ -4,32 +4,28 @@ GITZER_SOURCE="$(pwd)"
 
 backend_folder="$GITZER_SOURCE/gitzer"
 frontend_folder="$GITZER_SOURCE/gitzer-frontend"
-rm -rf "build/"
-mkdir "build/"
+BUILD_DIR="build"
+rm -rf "$BUILD_DIR/"
+mkdir "$BUILD_DIR/"
 cd "$GITZER_SOURCE"
 cd "$frontend_folder"
-frontend_cache="$(realpath node_modules)"
-frontend_cache="$(dirname $frontend_cache)"
-rsync -a --progress "$frontend_folder/" "$frontend_cache" --exclude "node_modules" \
-    --exclude "dist"
-cd "$frontend_cache"
-yarn && yarn generate
+build
 cd "$GITZER_SOURCE"
-rsync -a --progress "$frontend_folder/dist/" "build/"
+rsync -a --progress "$frontend_folder/dist/" "$BUILD_DIR/"
 
 cd "$GITZER_SOURCE"
-rsync -a --progress "$backend_folder/" "build/" \
+rsync -a --progress "$backend_folder/" "$BUILD_DIR/" \
     --exclude "tests" --exclude ".venv" \
     --exclude "poetry.lock" --exclude "**pycache**" \
     --exclude ".flake8" --exclude "db.sqlite3" \
     --exclude "pyproject.toml" --exclude "pytest.ini"
-cd "build/"
+cd "$BUILD_DIR/"
 python3 -m venv _vendor
 source _vendor/bin/activate
 pip3 install -r requirements.txt
 cd "$GITZER_SOURCE"
-cp "tools/main.py" "build/main.py"
-cp "VERSION" "build/VERSION"
+cp "tools/main.py" "$BUILD_DIR/main.py"
+cp "VERSION" "$BUILD_DIR/VERSION"
 
 version=$(<VERSION)
-tar cvfz "gitzer-$version.tar.gz" build/
+tar cvfz "gitzer-$version.tar.gz" $BUILD_DIR/
