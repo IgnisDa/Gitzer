@@ -99,6 +99,7 @@ class Installer:
             shutil.move(temporary_dir / "build", GITZER_PATH)
         self.set_git_alias()
         colored_print("SUCCESS", "Gitzer was installed on your system successfully!")
+        colored_print("INFO", "You can now run `git gitzer`")
 
     def gitzer_temp_directory(self):
         return pathlib.Path(tempfile.mkdtemp())
@@ -110,7 +111,19 @@ class Installer:
         python = "python3" if sys.version > "3" else "python"
         alias = f"!{python} {script_path}"
         command.append(alias)
-        subprocess.check_call(command)
+        try:
+            subprocess.check_call(command)
+        except subprocess.CalledProcessError:
+            colored_print(
+                "FAIL",
+                "Unable to set git aliases. Do you have `git` installed on your system?",
+            )
+            colored_print(
+                "INFO",
+                "If the problem persists, please raise an issue at "
+                "https://github.com/IgnisDa/Gitzer/issues",
+            )
+            exit(1)
 
     def uninstall(self):
         colored_print(
