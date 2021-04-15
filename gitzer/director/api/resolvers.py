@@ -1,7 +1,16 @@
 import os
+import sys
 
 import git
 from ariadne import MutationType, QueryType, convert_kwargs_to_snake_case
+from django.conf import settings
+from loguru import logger
+
+logger.remove()
+
+if settings.DEBUG:
+    logger.add(sys.stdout, format=settings.GITZER_LOGGING_FORMAT)
+logger.add(settings.GITZER_LOGGING_FILE, format=settings.GITZER_LOGGING_FORMAT)
 
 query = QueryType()
 mutation = MutationType()
@@ -18,6 +27,7 @@ def status(*_, directory):
         {"name": file.a_path, "change_type": file.change_type}
         for file in repo.index.diff(None)
     ]
+    logger.success("Requested status, directory: '{}'", directory)
     try:
         staged_files = [{"name": file.a_path} for file in repo.index.diff("HEAD")]
     except git.exc.BadName:
@@ -33,6 +43,7 @@ def status(*_, directory):
 @query.field("presentWorkingDirectory")
 @convert_kwargs_to_snake_case
 def present_working_directory(*_):
+    logger.info("Requested present working directory")
     path = os.getcwd()
     return str(path)
 
@@ -42,13 +53,16 @@ def present_working_directory(*_):
 def existence(*_, directory):
     try:
         git.Repo(directory)
+        logger.success("Valid repository: '{}'", directory)
         return {
             "exists": True,
             "message": "The specified repository was found successfully",
         }
     except git.exc.InvalidGitRepositoryError:
+        logger.debug("Invalid repository: '{}'", directory)
         message = "The path is not a valid git repository"
     except git.exc.NoSuchPathError:
+        logger.error("Invalid path: '{}'", directory)
         message = "The path specified is not valid"
     return {"exists": False, "message": message}
 
@@ -73,6 +87,7 @@ def stage_file(*_, data):
             repo.index.remove(path)
     if not file_changed:
         repo.index.add(path)
+    logger.success("Staged file: '{}'", path)
     return {"filename": filename, "status": True}
 
 
@@ -83,13 +98,16 @@ def unstage_file(*_, data):
     directory = data.get("directory")
     error = None
     repo = git.Repo(directory)
+    path = os.path.join(directory, filename)
     restore = repo.git
     try:
         restore.restore(filename, "--staged")
         status = True
+        logger.success("Unstaged file: '{}'", path)
     except git.exc.GitCommandError:
         status = False
         error = "This file was not found in the staging area"
+        logger.error("Error while un-staging file: '{}'", path)
     return {"filename": filename, "status": status, "error": error}
 
 
@@ -98,15 +116,18 @@ def unstage_file(*_, data):
 def discard_file_change(*_, data):
     filename = data.get("filename")
     directory = data.get("directory")
+    path = os.path.join(directory, filename)
     error = None
     repo = git.Repo(directory)
     restore = repo.git
     try:
         restore.restore(filename)
         status = True
+        logger.success("Discarded changes in file: '{}'", path)
     except git.exc.GitCommandError:
         status = False
         error = "This file does not exist in the git logs"
+        logger.error("Error while discarding changes in file: '{}'", path)
     return {"filename": filename, "status": status, "error": error}
 
 
@@ -115,6 +136,7 @@ def discard_file_change(*_, data):
 def perform_commit(*_, message, directory):
     repo = git.Repo(directory)
     repo.index.commit(message)
+    logger.success("Created a commit in directory: '{}'", directory)
     return {"status": False, "error": None}
 
 
@@ -125,6 +147,7 @@ def stage_all_untracked_files(*_, directory):
     for filename in repo.untracked_files:
         path = os.path.join(directory, filename)
         repo.index.add(path)
+    logger.info("Staged all untracked files in: '{}'", directory)
     return {"status": True, "error": None}
 
 
@@ -135,6 +158,7 @@ def stage_all_modified_files(*_, directory):
     for filename in repo.index.diff(None):
         path = os.path.join(directory, filename.a_path)
         repo.index.add(path)
+    logger.info("Staged all modified files in: '{}'", directory)
     return {"status": True, "error": None}
 
 
@@ -149,9 +173,11 @@ def discard_all_modified_files(*_, directory):
         try:
             path = os.path.join(directory, filename.a_path)
             restore.restore(path)
+            logger.success("Discarded file: '{}'", path)
         except git.exc.GitCommandError:
             status = False
             error = "There was a problem resolving your request"
+            logger.error("Error in discarding file: '{}'", path)
     return {"status": status, "error": error}
 
 
@@ -166,9 +192,11 @@ def unstage_all_staged_files(*_, directory):
         try:
             path = os.path.join(directory, filename.a_path)
             restore.restore(path, "--staged")
+            logger.success("Unstaged file: '{}'", path)
         except git.exc.GitCommandError:
             status = False
             error = "There was a problem resolving your request"
+            logger.error("Error in un-staging file: '{}'", path)
     return {"status": status, "error": error}
 
 
@@ -179,6 +207,8 @@ def push_to_origin(*_, directory):
     try:
         origin = repo.remote("origin")
         origin.push()
+        logger.success("Pushed to origin: '{}'", directory)
         return True
     except ValueError:
+        logger.error("Error in pushing to origin: '{}'", directory)
         return False
