@@ -18,7 +18,8 @@ rsync -a --progress "$backend_folder/" "$BUILD_DIR/" \
     --exclude "tests" --exclude ".venv" \
     --exclude "poetry.lock" --exclude "**pycache**" \
     --exclude ".flake8" --exclude "db.sqlite3" \
-    --exclude "pyproject.toml" --exclude "pytest.ini"
+    --exclude "pyproject.toml" --exclude "pytest.ini" \
+    --exclude "*.logs"
 cd "$BUILD_DIR/"
 python3 -m venv _vendor
 source _vendor/bin/activate
