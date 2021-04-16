@@ -1,4 +1,3 @@
-import argparse
 import http.server
 import multiprocessing
 import os
@@ -15,6 +14,7 @@ sys.path.insert(
         pathlib.Path(__file__).parent / "_vendor" / "lib" / "python3.8" / "site-packages"
     ),
 )
+import click  # noqa: E402k
 import gunicorn.app.base  # noqa: E402
 from gitzer.wsgi import application  # noqa: E402
 
@@ -35,20 +35,6 @@ VERSION_FILE = "VERSION"
 GITZER_BACKEND_HOST = os.environ.get("GITZER_BACKEND_HOST", "127.0.0.1")
 GITZER_FRONTEND_HOST = os.environ.get("GITZER_FRONTEND_HOST", "")
 UPDATER_URL = "https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py"
-
-
-def colored_print(color, message):
-    colors = dict(
-        SUCCESS="\033[92m",
-        INFO="\033[96m",
-        WARNING="\033[93m",
-        FAIL="\033[91m",
-        END="\033[0m",
-    )
-
-    if color not in colors:
-        raise ValueError(f"The color should be among {list(colors.keys())}")
-    print(colors[color] + message + colors["END"])
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -80,7 +66,6 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 
 def backend(port):
-
     options = {
         "bind": "%s:%s" % (GITZER_BACKEND_HOST, port),
         "workers": 1,
@@ -101,11 +86,12 @@ def frontend(port):
         httpd.serve_forever()
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Start the Gitzer servers")
-    parser.add_argument("-u", "--update", dest="update", action="store_true")
-    args = parser.parse_args()
-    if args.update:
+@click.option("--update", "-u", help="Update the installation of Gitzer.", is_flag=True)
+@click.command()
+def main(update):
+    """This script can be used to start the Gitzer servers or update the
+    current installation of Gitzer on your local system."""
+    if update:
         try:
             script = pathlib.Path(tempfile.gettempdir()) / "get-gitzer.py"
             python = "python3" if sys.version_info.major == 3 else "python"
@@ -124,7 +110,6 @@ def main():
                 "We encountered some error. "
                 "Please update manually from https://github.com/IgnisDa/Gitzer"
             )
-
     else:
         backend_port = 8534
         frontend_port = 8533
