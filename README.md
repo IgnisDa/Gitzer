@@ -34,7 +34,7 @@ rest of your system by vendorizing its dependencies. This is the recommended
 way of installing Gitzer.
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py | python
+curl -sSL https://raw.githubusercontent.com/IgnisDa/Gitzer/main/get-gitzer.py | python3 -
 ```
 
 ### Updating
