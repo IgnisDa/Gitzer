@@ -35,7 +35,11 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: ['@nuxtjs/apollo'],
+  modules: [
+    '@nuxtjs/apollo',
+    // https://google-fonts.nuxtjs.org/
+    '@nuxtjs/google-fonts',
+  ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
@@ -50,6 +54,13 @@ export default {
     webpack: {
       aggregateTimeout: 300,
       poll: 1000,
+    },
+  },
+  googleFonts: {
+    families: {
+      'Josefin+Sans': [500],
+      Sacramento: true,
+      'RocknRoll One': [400],
     },
   },
   publicRuntimeConfig: {
