@@ -19,7 +19,11 @@ mutation = MutationType()
 @query.field("status")
 @convert_kwargs_to_snake_case
 def status(*_, directory):
-    repo = git.Repo(directory)
+    try:
+        repo = git.Repo(directory)
+    except git.exc.NoSuchPathError:
+        logger.error("Tried to access illegal directory: '{}'", directory)
+        raise Exception("Illegal path accessed")
     untracked_files = [
         {"name": file, "change_type": "U"} for file in repo.untracked_files
     ]
