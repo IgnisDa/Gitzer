@@ -8,8 +8,9 @@ BUILD_DIR="build"
 rm -rf "$BUILD_DIR/"
 mkdir "$BUILD_DIR/"
 cd "$GITZER_SOURCE"
-cd "$frontend_folder"
+cd "$frontend_folder" && secrets=$(<.env) && rm .env
 build
+echo $secrets > .env
 cd "$GITZER_SOURCE"
 rsync -a --progress "$frontend_folder/dist/" "$BUILD_DIR/"
 
