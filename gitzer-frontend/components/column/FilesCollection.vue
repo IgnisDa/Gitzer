@@ -1,5 +1,27 @@
 <template>
-  <div class="flex flex-col space-y-0.5">
+  <div
+    v-if="$store.state.repository[type].length === 0"
+    class="flex items-center justify-center"
+  >
+    <div class="flex items-center space-x-3">
+      <IgIcon
+        name="x-octagon"
+        class="text-purple-200"
+        size="xl"
+        no-color
+      ></IgIcon>
+      <div class="font-extrabold text-center text-white uppercase">
+        **Cricket Noise**
+      </div>
+      <IgIcon
+        name="x-octagon"
+        class="text-purple-200"
+        size="xl"
+        no-color
+      ></IgIcon>
+    </div>
+  </div>
+  <div v-else class="flex flex-col space-y-0.5">
     <div v-for="(file, index) in $store.state.repository[type]" :key="index">
       <column-file-isolated
         :file="file"
@@ -14,7 +36,8 @@
               class="text-rose-600"
               no-color
               @click.native="
-                stageAllUntrackedFilesAction({
+                stageFileAction({
+                  filename: file.name,
                   directory: $route.query.directory,
                 })
               "
