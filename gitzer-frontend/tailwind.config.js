@@ -11,11 +11,17 @@ module.exports = {
       'plugins/**/*.js',
       'nuxt.config.js',
       'node_modules/ignisnents/src/components/**/*.vue',
+      '*.js',
     ],
   },
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ['Josefin Sans', 'sans-serif'],
+        rock: ['RocknRoll One', 'sans-serif'],
+      },
+    },
   },
   variants: {
     extend: {},
