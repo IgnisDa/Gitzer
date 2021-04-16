@@ -2,19 +2,19 @@
   <div class="flex-grow">
     <form class="m-4" @submit.prevent="commitChange(formData)">
       <div
-        class="text-3xl text-center font-serif text-blue-500 bg-black p-5 rounded-3xl ring ring-green-600"
+        class="p-5 font-serif text-3xl text-center text-blue-500 bg-black rounded-3xl ring ring-green-600"
       >
         Commit
       </div>
 
       <div
-        class="flex text-sm sm:text-base md:text-lg flex-wrap mt-4 font-mono"
+        class="flex flex-wrap mt-4 font-mono text-sm sm:text-base md:text-lg"
       >
-        <div class="w-3/5 flex flex-col">
+        <div class="flex flex-col w-3/5">
           <div class="mx-2 text-purple-200">Type of commit*:</div>
           <select
             v-model="formData.commitType"
-            class="m-3 ring ring-purple-600 rounded-lg"
+            class="m-3 rounded-lg ring ring-purple-600"
           >
             <option value="">Choose</option>
             <option>fix</option>
@@ -28,16 +28,16 @@
             <option>ci</option>
           </select>
           <div class="mx-2 text-purple-200">Scope of commit*:</div>
-          <div class="m-3 flex">
+          <div class="flex m-3">
             <input
               v-model="formData.commitScope"
               type="text"
-              class="w-1/2 ring ring-purple-600 rounded-lg"
+              class="w-1/2 rounded-lg ring ring-purple-600"
               name="scope"
             />
             <button
               type="button"
-              class="w-1/2 ml-2 bg-purple-900 ring ring-purple-600 rounded-lg"
+              class="w-1/2 ml-2 bg-purple-900 rounded-lg ring ring-purple-600"
               @click="setScope()"
             >
               Automatic Scope
@@ -47,7 +47,7 @@
           <input
             v-model="formData.commitSummary"
             type="text"
-            class="m-3 ring ring-purple-600 rounded-lg"
+            class="m-3 rounded-lg ring ring-purple-600"
             name="summary"
             required
           />
@@ -56,13 +56,13 @@
           <div class="mx-2 text-purple-200">Additional information:</div>
           <textarea
             v-model="formData.commitInfo"
-            class="h-full resize-none m-3 ring ring-purple-600 rounded-lg"
+            class="h-full m-3 rounded-lg resize-none ring ring-purple-600"
             type="text"
             name="commit-info"
           />
         </div>
         <button
-          class="w-full mx-2 bg-purple-900 ring ring-purple-600 rounded-lg"
+          class="w-full mx-2 bg-purple-900 rounded-lg ring ring-purple-600"
           type="submit"
         >
           Commit
