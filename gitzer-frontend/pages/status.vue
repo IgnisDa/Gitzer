@@ -1,21 +1,21 @@
 <template>
   <div
-    class="min-h-screen flex w-full from-indigo-900 bg-gradient-to-b to-gray-800"
+    class="flex w-full min-h-screen from-indigo-900 bg-gradient-to-b to-gray-800"
   >
-    <div class="container mx-auto flex flex-col">
-      <div class="flex-grow flex">
+    <div class="container flex flex-col mx-auto">
+      <div class="flex flex-grow">
         <div class="flex flex-wrap flex-grow my-auto">
           <div
-            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-y-auto overflow-x-hidden relative"
+            class="relative w-full p-2 overflow-x-hidden overflow-y-auto rounded-lg md:w-1/3 max-h-80"
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl flex justify-between items-center font-serif text-blue-500 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
+                class="sticky top-0 flex items-center justify-between p-3 font-serif text-3xl text-blue-500 bg-black rounded-3xl ring ring-green-600"
               >
                 <div>Untracked Files</div>
                 <button
                   title="Stage All Files"
-                  class="mx-1 shadow-inner rounded-full p-1"
+                  class="p-1 mx-1 rounded-full shadow-inner"
                   @click="
                     stageAllUntrackedFilesAction({
                       directory: $route.query.directory,
@@ -23,7 +23,7 @@
                   "
                 >
                   <FontAwesomeIcon
-                    class="h-7 text-yellow-400"
+                    class="text-yellow-400 h-7"
                     :icon="['fas', 'plus']"
                   />
                 </button>
@@ -33,17 +33,17 @@
                   <div
                     v-for="(file, index) in untrackedFiles"
                     :key="index + 0"
-                    class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
+                    class="flex justify-between p-2 my-1 transition duration-200 hover:bg-indigo-900 rounded-xl"
                     :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                   >
-                    <div class="flex justify-between items-center">
+                    <div class="flex items-center justify-between">
                       <div
                         class="mr-2 font-extrabold text-green-500"
                         title="Change type: Untracked"
                       >
                         {{ file.changeType }}
                       </div>
-                      <div class="font-mono justify-items-center ml-2">
+                      <div class="ml-2 font-mono justify-items-center">
                         <div class="text-white">
                           {{ file.name | getFilename }}
                         </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="flex items-center">
                       <button
-                        class="mx-1 shadow-inner rounded-full p-1"
+                        class="p-1 mx-1 rounded-full shadow-inner"
                         title="Stage File"
                         @click="
                           stageFileAction({
@@ -69,7 +69,7 @@
                   </div>
                 </transition-group>
               </div>
-              <div v-else class="h-28 flex text-white">
+              <div v-else class="flex text-white h-28">
                 <FontAwesomeIcon
                   class="h-20 m-auto"
                   :icon="['fas', 'folder-open']"
@@ -78,17 +78,17 @@
             </div>
           </div>
           <div
-            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-y-auto overflow-x-hidden relative"
+            class="relative w-full p-2 overflow-x-hidden overflow-y-auto rounded-lg md:w-1/3 max-h-80"
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl flex justify-between items-center font-serif text-blue-500 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
+                class="sticky top-0 flex items-center justify-between p-3 font-serif text-3xl text-blue-500 bg-black rounded-3xl ring ring-green-600"
               >
                 <div>Modified Files</div>
                 <div>
                   <button
                     title="Stage All Files"
-                    class="mx-1 shadow-inner rounded-full p-1"
+                    class="p-1 mx-1 rounded-full shadow-inner"
                     @click="
                       stageAllModifiedFilesAction({
                         directory: $route.query.directory,
@@ -96,12 +96,12 @@
                     "
                   >
                     <FontAwesomeIcon
-                      class="h-7 text-yellow-400"
+                      class="text-yellow-400 h-7"
                       :icon="['fas', 'plus']"
                     />
                   </button>
                   <button
-                    class="mx-1 shadow-inner rounded-full p-1"
+                    class="p-1 mx-1 rounded-full shadow-inner"
                     title="Discard All Modified Files"
                     @click="
                       discardAllModifiedFilesAction({
@@ -110,7 +110,7 @@
                     "
                   >
                     <FontAwesomeIcon
-                      class="h-7 text-yellow-400"
+                      class="text-yellow-400 h-7"
                       :icon="['fas', 'trash']"
                     />
                   </button>
@@ -121,10 +121,10 @@
                   <div
                     v-for="(file, index) in modifiedFiles"
                     :key="index + 0"
-                    class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
+                    class="flex justify-between p-2 my-1 transition duration-200 hover:bg-indigo-900 rounded-xl"
                     :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                   >
-                    <div class="flex justify-between items-center">
+                    <div class="flex items-center justify-between">
                       <div
                         class="mr-2 font-extrabold"
                         :class="changeTypeColor(file.changeType)"
@@ -132,7 +132,7 @@
                       >
                         {{ file.changeType }}
                       </div>
-                      <div class="font-mono justify-items-center ml-2">
+                      <div class="ml-2 font-mono justify-items-center">
                         <div class="text-white">
                           {{ file.name | getFilename }}
                         </div>
@@ -144,7 +144,7 @@
                     <div class="flex items-center">
                       <button
                         title="Stage Changes"
-                        class="mx-1 shadow-inner rounded-full p-1"
+                        class="p-1 mx-1 rounded-full shadow-inner"
                         @click="
                           stageFileAction({
                             filename: file.name,
@@ -155,7 +155,7 @@
                         <FontAwesomeIcon class="h-7" :icon="['fas', 'plus']" />
                       </button>
                       <button
-                        class="mx-1 shadow-inner rounded-full p-1"
+                        class="p-1 mx-1 rounded-full shadow-inner"
                         title="Discard Changes"
                         @click="
                           discardFileChangeAction({
@@ -170,7 +170,7 @@
                   </div>
                 </transition-group>
               </div>
-              <div v-else class="h-28 flex text-white">
+              <div v-else class="flex text-white h-28">
                 <FontAwesomeIcon
                   class="h-20 m-auto"
                   :icon="['fas', 'folder-open']"
@@ -179,15 +179,15 @@
             </div>
           </div>
           <div
-            class="w-full md:w-1/3 rounded-lg p-2 max-h-80 overflow-y-auto overflow-x-hidden relative"
+            class="relative w-full p-2 overflow-x-hidden overflow-y-auto rounded-lg md:w-1/3 max-h-80"
           >
             <div class="px-1 shadow-lg">
               <div
-                class="text-3xl flex justify-between items-center font-serif text-blue-500 sticky top-0 bg-black p-3 rounded-3xl ring ring-green-600"
+                class="sticky top-0 flex items-center justify-between p-3 font-serif text-3xl text-blue-500 bg-black rounded-3xl ring ring-green-600"
               >
                 <div>Staged Files</div>
                 <button
-                  class="mx-1 shadow-inner rounded-full p-1"
+                  class="p-1 mx-1 rounded-full shadow-inner"
                   title="Unstage All Changes"
                   @click="
                     unstageAllStagedFilesAction({
@@ -196,7 +196,7 @@
                   "
                 >
                   <FontAwesomeIcon
-                    class="h-7 text-yellow-400"
+                    class="text-yellow-400 h-7"
                     :icon="['fas', 'minus']"
                   />
                 </button>
@@ -206,7 +206,7 @@
                   <div
                     v-for="(file, index) in stagedFiles"
                     :key="index + 1"
-                    class="p-2 flex justify-between my-1 hover:bg-indigo-900 rounded-xl transition duration-200"
+                    class="flex justify-between p-2 my-1 transition duration-200 hover:bg-indigo-900 rounded-xl"
                     :class="index % 2 ? 'bg-gray-900' : 'bg-gray-700'"
                   >
                     <div class="font-mono justify-items-center">
@@ -219,7 +219,7 @@
                     </div>
                     <div class="flex items-center">
                       <button
-                        class="mx-1 shadow-inner rounded-full p-1"
+                        class="p-1 mx-1 rounded-full shadow-inner"
                         title="Unstage File"
                         @click="
                           unstageFileAction({
@@ -234,7 +234,7 @@
                   </div>
                 </transition-group>
               </div>
-              <div v-else class="h-28 flex text-white">
+              <div v-else class="flex text-white h-28">
                 <FontAwesomeIcon
                   class="h-20 m-auto"
                   :icon="['fas', 'folder-open']"
@@ -244,26 +244,11 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap my-auto flex-">
+      <div class="flex flex-none">
         <CommitMessageForm />
       </div>
-      <div class="flex flex-grow text-white">
-        <NuxtLink :to="{ name: 'index' }" class="m-auto" title="Home">
-          <FontAwesomeIcon
-            class="h-12 hover:text-red-600 transition duration-150 ease-in-out"
-            :icon="['fas', 'home']"
-          />
-        </NuxtLink>
-        <button
-          class="m-auto"
-          title="Refresh status"
-          @click="fetchStatusAction({ directory: $route.query.directory })"
-        >
-          <FontAwesomeIcon
-            class="h-12 hover:text-red-600 transition duration-150 ease-in-out"
-            :icon="['fas', 'sync']"
-          />
-        </button>
+      <div class="flex-none my-3 md:mb-14 md:mt-8">
+        <git-actions></git-actions>
       </div>
     </div>
   </div>
