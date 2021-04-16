@@ -28,7 +28,7 @@
       <IgIcon
         name="chevrons-up"
         class="w-8 h-8 transition duration-300 ease-in-out lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-10 sm:w-10 hover:text-red-600 text-lime-200"
-        :class="{ 'animate-pulse': loadingPush }"
+        :class="{ 'animate-bounce': loading }"
         no-size
         no-color
       ></IgIcon>
@@ -41,7 +41,7 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   data: () => ({
-    loadingPush: false,
+    loading: false,
   }),
   computed: {
     ...mapState({
@@ -53,10 +53,10 @@ export default {
       fetchStatusAction: 'repository/fetchStatus',
       pushToOriginAction: 'repository/pushToOrigin',
     }),
-    pushToOrigin() {
-      this.loadingPush = true
-      this.pushToOriginAction({ directory: this.$route.query.directory })
-      this.loadingPush = false
+    async pushToOrigin() {
+      this.loading = true
+      await this.pushToOriginAction({ directory: this.$route.query.directory })
+      this.loading = false
     },
   },
 }
