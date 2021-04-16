@@ -1,7 +1,7 @@
 <template>
+  <!-- Giving the div a fixed width prevents the last alert from shrinking when we dismiss it.  -->
+  <!-- Remove the `w-64` class, and trigger an alert, and dismiss it, to see what I mean. -->
   <div id="alert--area" class="fixed z-10 w-64">
-    <!-- Giving the div a fixed width prevents the last alert from shrinking when we dismiss it.  -->
-    <!-- Remove the `w-64` class, and trigger an alert, and dismiss it, to see what I mean. -->
     <transition-group name="alert" tag="div">
       <div
         v-for="alert in activeAlertsGetter"
