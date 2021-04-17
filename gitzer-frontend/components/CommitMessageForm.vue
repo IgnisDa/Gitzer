@@ -1,6 +1,7 @@
 <template>
   <div class="flex-grow">
-    <form class="m-4" @submit.prevent="commitChange(formData)">
+    <hotkeys @submitForm="commitChange()"></hotkeys>
+    <form class="m-4" @submit.prevent="commitChange()">
       <div
         class="p-5 font-serif text-3xl text-center text-blue-500 bg-black rounded-3xl ring ring-green-600"
       >
@@ -102,7 +103,8 @@ export default {
     setScope() {
       this.formData.commitScope = this.commitScopeGetter
     },
-    commitChange(formData) {
+    commitChange() {
+      const formData = this.formData
       let commitMessage = `${formData.commitType}`
       if (formData.commitScope) {
         commitMessage += `(${formData.commitScope})`
@@ -111,6 +113,7 @@ export default {
       if (formData.commitInfo) {
         commitMessage += `\n\n${formData.commitInfo}`
       }
+      // console.log(commitMessage)
       this.performCommitAction({
         commitMessage,
         directory: this.$route.query.directory,
