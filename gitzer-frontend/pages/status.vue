@@ -279,13 +279,26 @@ export default {
     }),
   },
   mounted() {
-    this.fetchStatusAction({ directory: this.$route.query.directory })
-    this.interval = setInterval(
-      function () {
-        this.fetchStatusAction({ directory: this.$route.query.directory })
-      }.bind(this),
-      10000
-    )
+    try {
+      this.fetchStatusAction({ directory: this.$route.query.directory })
+    } catch {
+      this.$addAlert({
+        severity: 'danger',
+        messageHeading: 'Illegal path',
+        messageBody:
+          'The directory you requested is not a valid git repository',
+        active: true,
+      })
+      this.$router.push({ name: 'index' })
+      return
+    } finally {
+      this.interval = setInterval(
+        function () {
+          this.fetchStatusAction({ directory: this.$route.query.directory })
+        }.bind(this),
+        10000
+      )
+    }
   },
   beforeDestroy() {
     clearInterval(this.interval)
