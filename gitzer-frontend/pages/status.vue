@@ -256,16 +256,15 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { getFileRoot, getFilename } from '../utils.js'
 
 export default {
   filters: {
     getFilename(filename) {
-      const array = filename.split('/')
-      return array[array.length - 1]
+      return getFilename(filename)
     },
     getFileRoot(filename) {
-      const array = filename.split('/')
-      return array.slice(0, array.length - 1).join('/')
+      return getFileRoot(filename)
     },
   },
   head: () => ({
