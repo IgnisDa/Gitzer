@@ -160,6 +160,7 @@ LOGGING = {
     },
 }
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 GITZER_LOGGING_FILE = Path(BASE_DIR / "gitzer-request.log")
 GITZER_LOGGING_FORMAT = (
     "TIME: {time:YYYY/M/D, at HH:mm:ss:SS!UTC}\nLEVEL: {level}\nMESSAGE: {message}\n\n"
