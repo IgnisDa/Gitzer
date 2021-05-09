@@ -17,6 +17,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      animation: {
+        'spin-slow': 'spin 2.5s linear infinite',
+      },
       fontFamily: {
         display: ['Josefin Sans', 'sans-serif'],
         rock: ['RocknRoll One', 'sans-serif'],
