@@ -11,13 +11,14 @@
     <button
       class="appearance-none focus:outline-none"
       title="Refresh status"
-      @click="fetchStatusAction({ directory: $route.query.directory })"
+      @click="fetchStatus()"
     >
       <IgIcon
         name="refresh-cw"
         class="w-8 h-8 transition duration-300 ease-in-out lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-10 sm:w-10 hover:text-red-600 text-lime-200"
         no-size
         no-color
+        :class="{ 'animate-spin-slow': loadingStatus }"
       ></IgIcon>
     </button>
     <button
@@ -28,7 +29,7 @@
       <IgIcon
         name="chevrons-up"
         class="w-8 h-8 transition duration-300 ease-in-out lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-10 sm:w-10 hover:text-red-600 text-lime-200"
-        :class="{ 'animate-bounce': loading }"
+        :class="{ 'animate-bounce': loadingPush }"
         no-size
         no-color
       ></IgIcon>
@@ -42,7 +43,8 @@ import { mapActions, mapState } from 'vuex'
 export default {
   data() {
     return {
-      loading: false,
+      loadingPush: false,
+      loadingStatus: false,
     }
   },
   computed: {
@@ -56,9 +58,14 @@ export default {
       pushToOriginAction: 'repository/pushToOrigin',
     }),
     async pushToOrigin() {
-      this.loading = true
+      this.loadingPush = true
       await this.pushToOriginAction({ directory: this.$route.query.directory })
-      this.loading = false
+      this.loadingPush = false
+    },
+    async fetchStatus() {
+      this.loadingStatus = true
+      await this.fetchStatusAction({ directory: this.$route.query.directory })
+      this.loadingStatus = false
     },
   },
 }
