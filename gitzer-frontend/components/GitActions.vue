@@ -40,9 +40,11 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  data: () => ({
-    loading: false,
-  }),
+  data() {
+    return {
+      loading: false,
+    }
+  },
   computed: {
     ...mapState({
       branch: (state) => state.repository.branch,

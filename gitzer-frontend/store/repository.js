@@ -196,9 +196,9 @@ export const actions = {
         alert(err)
       })
   },
-  pushToOrigin({ dispatch }, payload) {
+  async pushToOrigin({ dispatch }, payload) {
     const apolloClient = this.app.apolloProvider.defaultClient
-    apolloClient
+    await apolloClient
       .mutate({
         mutation: pushToOriginMutation,
         variables: {
