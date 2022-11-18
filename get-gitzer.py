@@ -53,7 +53,7 @@ class Installer:
         with closing(urlopen(request)) as response:
             data = json.loads(response.read())
         tag_name = data["tag_name"].lstrip("v")
-        gzip_name = "gitzer-{}.tar.gz".format(tag_name)
+        gzip_name = f"gitzer-{tag_name}.tar.gz"
         assets = data["assets"]
         for asset in assets:
             if asset["name"] == gzip_name:
@@ -65,7 +65,7 @@ class Installer:
             r = urlopen(gzip_url)
         except HTTPError as e:
             if e.code == 404:
-                raise RuntimeError("Could not find {} file".format(gzip_name))
+                raise RuntimeError(f"Could not find {gzip_name} file")
 
         meta = r.info()
         size = int(meta["Content-Length"])
@@ -94,7 +94,26 @@ class Installer:
         colored_print("INFO", f"Installing Gitzer to {str(GITZER_PATH)}...")
         with tarfile.open(gitzer_tar, "r:gz") as tar_file:
             temporary_dir = self.gitzer_temp_directory()
-            tar_file.extractall(temporary_dir)
+            def is_within_directory(directory, target):
+                
+                abs_directory = os.path.abspath(directory)
+                abs_target = os.path.abspath(target)
+            
+                prefix = os.path.commonprefix([abs_directory, abs_target])
+                
+                return prefix == abs_directory
+            
+            def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+            
+                for member in tar.getmembers():
+                    member_path = os.path.join(path, member.name)
+                    if not is_within_directory(path, member_path):
+                        raise Exception("Attempted Path Traversal in Tar File")
+            
+                tar.extractall(path, members, numeric_owner=numeric_owner) 
+                
+            
+            safe_extract(tar_file, temporary_dir)
             os.makedirs(GITZER_HOME, exist_ok=True)
             shutil.move(temporary_dir / "build", GITZER_PATH)
         self.set_git_alias()
