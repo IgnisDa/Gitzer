@@ -53,7 +53,7 @@ class Installer:
         with closing(urlopen(request)) as response:
             data = json.loads(response.read())
         tag_name = data["tag_name"].lstrip("v")
-        gzip_name = "gitzer-{}.tar.gz".format(tag_name)
+        gzip_name = f"gitzer-{tag_name}.tar.gz"
         assets = data["assets"]
         for asset in assets:
             if asset["name"] == gzip_name:
@@ -65,7 +65,7 @@ class Installer:
             r = urlopen(gzip_url)
         except HTTPError as e:
             if e.code == 404:
-                raise RuntimeError("Could not find {} file".format(gzip_name))
+                raise RuntimeError(f"Could not find {gzip_name} file")
 
         meta = r.info()
         size = int(meta["Content-Length"])
